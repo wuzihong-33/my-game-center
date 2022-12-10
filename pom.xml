@@ -14,6 +14,7 @@
         <module>my-game-center</module>
         <module>my-game-network-param</module>
         <module>my-game-common</module>
+        <module>my-game-web-gateway</module>
     </modules>
 
     <!-- 配置Spring Boot -->
@@ -23,17 +24,17 @@
         <version>2.1.3.RELEASE</version>
     </parent>
     <!-- 配置Spring Clound 依赖管理 -->
-<!--    <dependencyManagement>-->
-<!--        <dependencies>-->
-<!--            <dependency>-->
-<!--                <groupId>org.springframework.cloud</groupId>-->
-<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
-<!--                <version>Greenwich.RELEASE</version>&lt;!&ndash; 注意这里面的版本，不同的版本，代码会有一些差别 &ndash;&gt;-->
-<!--                <type>pom</type>-->
-<!--                <scope>import</scope>-->
-<!--            </dependency>-->
-<!--        </dependencies>-->
-<!--    </dependencyManagement>-->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.RELEASE</version><!-- 注意这里面的版本，不同的版本，代码会有一些差别 -->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -87,10 +88,10 @@
             <version>6.9.10</version>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>&lt;!&ndash; 引入Consul客户端，用于服务发现 &ndash;&gt;-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-consul-discovery</artifactId>-->
-<!--        </dependency>-->
+        <dependency><!-- 引入Consul客户端，用于服务发现 -->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
 <!--        <dependency>&lt;!&ndash; 引用Spring Cloud Bus依赖的消息队列，kafka &ndash;&gt;-->
 <!--            <groupId>org.springframework.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-bus-kafka</artifactId>-->

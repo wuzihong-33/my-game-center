@@ -1,0 +1,32 @@
+#logging:
+#  config: file:config/log4j2.xml
+server:
+  port: 5001
+
+spring:
+  application:
+    name: game-web-gateway-server
+  cloud:
+    consul:
+      host: localhost          #consul地址
+      port: 8500               #consul端口
+      discovery:
+        prefer-ip-address: true
+        ip-address: 127.0.0.1
+#        health-check-path: /health   #心跳接口
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#      routes:    #手动配置路由信息
+#        - id: game-center-server
+#          uri: lb://game-center-server   #配置服务id
+#          predicates:
+#            - name: Path
+#              args:
+#                pattern: /game-center-server/**
+#      filters:
+#        - name: RewritePath
+#          args:
+#            regexp: /game-center-server/(?<remaining>.*)
+#            replacement: /${remaining}

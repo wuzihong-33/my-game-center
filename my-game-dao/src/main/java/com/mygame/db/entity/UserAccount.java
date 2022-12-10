@@ -7,15 +7,21 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "UserAccount")
 public class UserAccount {
-    @Id // 标记为数据库主键
-    private String openId;    // 用户的账号ID，一般是第三方SDK的openId
-    private long userId;      // 用户唯一ID，由服务器维护，需要全局唯一
-    private long createTime;  // 创建时间
-    private String registIp;  // 注册ip
+    @Id                         // 标记为数据库主键
+    private String openId;      // 用户的账号ID，一般是第三方SDK的openId
+    private long userId;        // 用户唯一ID，由服务器维护，需要全局唯一
+    private long createTime;    // 创建时间
+    private String registIp;    // 注册ip
     private String lastLoginIp; // 上次登录的ip
-    // 记录已创建角色的基本信息
-    private Map<String, ZonePlayerInfo> zonePlayerInfo = new HashMap<>();
+    private Map<String, ZonePlayerInfo> zonePlayerInfos = new HashMap<>();// 记录已创建角色的基本信息
 
+    public ZonePlayerInfo getZonePlayerInfo(String zoneId) {
+        return zonePlayerInfos.get(zoneId);
+    }
+    public void addZonePlayerInfo(String zoneId, ZonePlayerInfo zonePlayerInfo) {
+        zonePlayerInfos.put(zoneId, zonePlayerInfo);
+    }
+    
     public long getUserId() {
         return userId;
     }
@@ -56,19 +62,20 @@ public class UserAccount {
         this.lastLoginIp = lastLoginIp;
     }
 
-
-
     public Map<String, ZonePlayerInfo> getZonePlayerInfo() {
-        return zonePlayerInfo;
+        return zonePlayerInfos;
     }
 
     public void setZonePlayerInfo(Map<String, ZonePlayerInfo> zonePlayerInfo) {
-        this.zonePlayerInfo = zonePlayerInfo;
+        this.zonePlayerInfos = zonePlayerInfo;
     }
-
+    public boolean exitZonePlayerInfo(String zoneId) {
+        return this.zonePlayerInfos.containsKey(zoneId);
+    }
+    
     @Override
     public String toString() {
-        return "UserAccount [openId=" + openId + ", userId=" + userId + ", createTime=" + createTime + ", registIp=" + registIp + ", lastLoginIp=" + lastLoginIp + ", zonePlayerInfo=" + zonePlayerInfo + "]";
+        return "UserAccount [openId=" + openId + ", userId=" + userId + ", createTime=" + createTime + ", registIp=" + registIp + ", lastLoginIp=" + lastLoginIp + ", zonePlayerInfo=" + zonePlayerInfos + "]";
     }
 
 

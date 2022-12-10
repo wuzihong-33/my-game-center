@@ -53,4 +53,8 @@ public class UserService {
         this.userAccountDao.saveOrUpdate(userAccount, userAccount.getOpenId());
     }
     
+    public UserAccount getUserAccountByOpenId(String openId) {
+        return userAccountDao.findById(openId).get();
+    }
+    
 }

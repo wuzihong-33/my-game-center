@@ -6,11 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="my-game-network-param" />
         <module name="my-game-center" />
-        <module name="my-game-dao" />
+        <module name="my-game-web-gateway" />
+        <module name="my-game-network-param" />
         <module name="my-game-gateway" />
         <module name="my-game-common" />
+        <module name="my-game-dao" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,6 +25,7 @@
       <module name="my-game-dao" options="-parameters" />
       <module name="my-game-gateway" options="-parameters" />
       <module name="my-game-network-param" options="-parameters" />
+      <module name="my-game-web-gateway" options="-parameters" />
       <module name="untitled" options="-parameters" />
     </option>
   </component>
