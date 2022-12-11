@@ -1,0 +1,43 @@
+{
+  "groups": [
+    {
+      "name": "gateway.filter",
+      "type": "com.mygame.gateway.filter.FilterConfig",
+      "sourceType": "com.mygame.gateway.filter.FilterConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "gateway.filter.cache-user-max-count",
+      "type": "java.lang.Integer",
+      "description": "最大用户缓存数量",
+      "sourceType": "com.mygame.gateway.filter.FilterConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "gateway.filter.cache-user-timeout",
+      "type": "java.lang.Integer",
+      "description": "每个用户缓存的超时时间，超过个时间，从缓存中清除。单位毫秒",
+      "sourceType": "com.mygame.gateway.filter.FilterConfig",
+      "defaultValue": 0
+    },
+    {
+      "name": "gateway.filter.global-request-rate-count",
+      "type": "java.lang.Double",
+      "description": "全局限流器每秒钟产生的令牌数",
+      "sourceType": "com.mygame.gateway.filter.FilterConfig"
+    },
+    {
+      "name": "gateway.filter.user-request-rate-count",
+      "type": "java.lang.Double",
+      "description": "单个用户限流器每秒产生的令牌数",
+      "sourceType": "com.mygame.gateway.filter.FilterConfig"
+    },
+    {
+      "name": "gateway.filter.white-request-uri",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.mygame.gateway.filter.FilterConfig"
+    }
+  ],
+  "hints": []
+}

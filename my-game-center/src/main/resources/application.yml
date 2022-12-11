@@ -1,5 +1,5 @@
-#logging:
-#  config: file:config/log4j2.xml
+logging:
+  config: D:\my-game-server\my-game-center\src\main\resources\log4j2.xml
 # 115.28.208.195
 server:
   port: 5003
@@ -37,7 +37,7 @@ spring:
         instance-id: ${spring.application.name}:${server.port}
         prefer-ip-address: true
         ip-address: 127.0.0.1
-        catalog-services-watch-delay: 10000
+#        catalog-services-watch-delay: 10000
 
 
 management:

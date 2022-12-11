@@ -30,3 +30,19 @@ spring:
 #          args:
 #            regexp: /game-center-server/(?<remaining>.*)
 #            replacement: /${remaining}
+
+game-center-server:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.mygame.gateway.balance.GameCenterBalanceRule
+    
+    
+gateway:
+  filter:
+    white-request-uri:
+      - /request/10001
+      - /test/https
+      - /request/10003
+    user-request-rate-count: 1
+    global-request-rate-count: 1
+    cache-user-max-count: 5000
+    cache-user-timeout: 300000

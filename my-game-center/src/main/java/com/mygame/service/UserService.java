@@ -1,6 +1,7 @@
 package com.mygame.service;
 
 import com.mygame.common.error.IServerError;
+import com.mygame.common.utils.CommonField;
 import com.mygame.dao.UserAccountDao;
 import com.mygame.db.entity.UserAccount;
 import com.mygame.http.request.LoginParam;
@@ -9,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Service
@@ -55,6 +57,10 @@ public class UserService {
     
     public UserAccount getUserAccountByOpenId(String openId) {
         return userAccountDao.findById(openId).get();
+    }
+    
+    public String getOpenIdFromHeader(HttpServletRequest request) {
+        return request.getHeader(CommonField.OPEN_ID);
     }
     
 }

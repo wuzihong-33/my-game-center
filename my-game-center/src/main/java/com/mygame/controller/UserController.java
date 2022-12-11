@@ -38,14 +38,17 @@ public class UserController {
     
     @GetMapping("/test")
     public String test() {
-        logger.debug("success");
+        logger.info("success");
         return "success";
     }
-    
+
+    // {"openId":"012345", "token": "aaabbbccc"}
+    // http://localhost:5003/request/10001
     @PostMapping(MessageCode.USER_LOGIN)
     public ResponseEntity<LoginResult> login(@RequestBody LoginParam loginParam) {
         loginParam.checkParam();
         // 去第三方提供的服务器地址验证openId
+        // 这里的token，是sdk带过来的token，非服务器自己生成的
         IServerError serverError = userService.verifySdkToken(loginParam.getOpenId(), loginParam.getToken());
         if (serverError != null) {
             throw GameErrorException.newBuilder(serverError).build();
@@ -63,6 +66,7 @@ public class UserController {
     @PostMapping(MessageCode.CREATE_PLAYER)
     public ResponseEntity<ZonePlayerInfo> createPlayer(@RequestBody CreatePlayerParam param, HttpServletRequest request) {
         param.checkParam();
+        /**
         String token = request.getHeader("token"); // 从http包头里面获取token的值
         if (token == null) {
             throw GameErrorException.newBuilder(GameCenterError.TOKEN_FAILED).build();
@@ -74,7 +78,12 @@ public class UserController {
             throw GameErrorException.newBuilder(GameCenterError.TOKEN_FAILED).build();
         }
         String openId = tokenBody.getOpenId();
+        */
+        // 在web网关处统一做token权限验证，服务中心则可以不再对token进行验证
+        // 上述一大段可以被修改为：
+        String openId = userService.getOpenIdFromHeader(request);
         UserAccount userAccount = userService.getUserAccountByOpenId(openId);
+
         String zoneId = param.getZoneId();
         ZonePlayerInfo zonePlayerInfo;
         if (!userAccount.exitZonePlayerInfo(zoneId)) {
