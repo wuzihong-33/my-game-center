@@ -1,9 +1,11 @@
-package com.mygame.service;
+package com.mygame.center.service;
 
 import com.mygame.common.error.GameErrorException;
+import com.mygame.common.utils.JWTUtil;
 import com.mygame.dao.PlayerDao;
 import com.mygame.db.entity.Player;
 import com.mygame.error.GameCenterError;
+import com.mygame.http.request.SelectGameGatewayParam;
 import com.mygame.redis.EnumRedisKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +20,6 @@ public class PlayerService {
     @Autowired
     private PlayerDao playerDao;
     private Logger logger = LoggerFactory.getLogger(PlayerService.class);
-
-    
 
     private String getNickNameRedisKey(String zoneId,String nickName) {
         String key = EnumRedisKey.PLAYER_NICKNAME.getKey(zoneId + "_" + nickName);
@@ -61,6 +61,16 @@ public class PlayerService {
     private long nextPlayerId(String zoneId) {
         String key = EnumRedisKey.PLAYER_ID_INCR.getKey(zoneId);
         return redisTemplate.opsForValue().increment(key);
+    }
+    
+    public String createToken(SelectGameGatewayParam param, String gatewayIp, String publicKey) {
+        String openId = param.getOpenId();
+        String zoneId = param.getZoneId();
+        long userId = param.getUserId();
+        long playerId = param.getPlayerId();
+
+        String token = JWTUtil.getUserToken(openId, userId);
+        return token;
     }
     
 }

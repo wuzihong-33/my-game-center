@@ -1,4 +1,4 @@
-package com.mygame;
+package com.mygame.center;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

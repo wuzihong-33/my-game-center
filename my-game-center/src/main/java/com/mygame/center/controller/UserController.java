@@ -1,22 +1,23 @@
-package com.mygame.controller;
+package com.mygame.center.controller;
 
+import com.mygame.center.dataconfig.GameGatewayInfo;
+import com.mygame.center.service.GameGatewayService;
 import com.mygame.common.error.GameErrorException;
 import com.mygame.common.error.IServerError;
-import com.mygame.common.error.TokenException;
 import com.mygame.common.utils.JWTUtil;
-import com.mygame.common.utils.JWTUtil.TokenBody;
 import com.mygame.db.entity.Player;
 import com.mygame.db.entity.UserAccount;
 import com.mygame.db.entity.UserAccount.ZonePlayerInfo;
 
-import com.mygame.error.GameCenterError;
 import com.mygame.http.MessageCode;
 import com.mygame.http.request.CreatePlayerParam;
 import com.mygame.http.request.LoginParam;
+import com.mygame.http.request.SelectGameGatewayParam;
+import com.mygame.http.response.GameGatewayInfoMsg;
 import com.mygame.http.response.LoginResult;
 import com.mygame.http.response.ResponseEntity;
-import com.mygame.service.PlayerService;
-import com.mygame.service.UserService;
+import com.mygame.center.service.PlayerService;
+import com.mygame.center.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,10 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    
+    @Autowired
+    private GameGatewayService gameGatewayService;
+    
     @Autowired
     private PlayerService playerService;
 
@@ -97,6 +101,26 @@ public class UserController {
         }
         ResponseEntity<ZonePlayerInfo> response = new ResponseEntity<ZonePlayerInfo>(zonePlayerInfo);
         return response;
+    }
+
+    @PostMapping(MessageCode.SELECT_GAME_GATEWAY)
+    public Object selectGameGateway(@RequestBody SelectGameGatewayParam param) throws Exception {
+        param.checkParam();
+        long playerId = param.getPlayerId();
+        GameGatewayInfo gameGatewayInfo = gameGatewayService.getGameGatewayInfo(playerId);
+        GameGatewayInfoMsg gameGatewayInfoMsg = new GameGatewayInfoMsg(gameGatewayInfo.getId(), gameGatewayInfo.getIp(),
+                gameGatewayInfo.getPort());
+//        Map<String, Object> keyPair = RSAUtils.genKeyPair();// 生成rsa的公钥和私钥
+//        byte[] publickKeyBytes = RSAUtils.getPublicKey(keyPair);// 获取公钥
+//        String publickKey = Base64Utils.encodeToString(publickKeyBytes);// 为了方便传输，对bytes数组进行一下base64编码
+        String token = playerService.createToken(param, gameGatewayInfo.getIp(), null);// 根据这些参数生成token
+        gameGatewayInfoMsg.setToken(token);
+//        byte[] privateKeyBytes = RSAUtils.getPrivateKey(keyPair);
+//        String privateKey = Base64Utils.encodeToString(privateKeyBytes);
+//        gameGatewayInfoMsg.setRsaPrivateKey(privateKey);// 给客户端返回私钥
+        logger.debug("player {} 获取游戏网关信息成功：{}", playerId, gameGatewayInfoMsg);
+        ResponseEntity<GameGatewayInfoMsg> responseEntity = new ResponseEntity<>(gameGatewayInfoMsg);
+        return responseEntity;
     }
     
 }

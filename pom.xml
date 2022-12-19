@@ -15,6 +15,7 @@
         <module>my-game-network-param</module>
         <module>my-game-common</module>
         <module>my-game-web-gateway</module>
+        <module>my-game-client</module>
     </modules>
 
     <!-- 配置Spring Boot -->

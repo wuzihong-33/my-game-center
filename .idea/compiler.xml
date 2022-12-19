@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="my-game-center" />
+        <module name="my-game-client" />
         <module name="my-game-web-gateway" />
         <module name="my-game-network-param" />
         <module name="my-game-gateway" />
@@ -21,6 +22,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="my-game-center" options="-parameters" />
+      <module name="my-game-client" options="-parameters" />
       <module name="my-game-common" options="-parameters" />
       <module name="my-game-dao" options="-parameters" />
       <module name="my-game-gateway" options="-parameters" />

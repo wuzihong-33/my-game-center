@@ -1,4 +1,4 @@
-package com.mygame.service;
+package com.mygame.center.service;
 
 import com.mygame.common.error.IServerError;
 import com.mygame.common.utils.CommonField;
