@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: game-client
+
+game:
+  client:
+    config:
+      use-game-center: true
+      game-center-url: http://localhost:5001/game-center-server
+      

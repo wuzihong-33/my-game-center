@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GameMessageMetaData {
-    int messageId();
-    int serviceId();
+public @interface GameMessageMetadata {
+    int messageId(); // 消息请求id：用于区分每个请求对应的业务处理。比如，1001表示登录；1002表示创建角色等。
+    int serviceId(); // 服务id：消息所要到达的服务id，用于消息分发和负载均衡。
     EnumMessageType messageType();
 }

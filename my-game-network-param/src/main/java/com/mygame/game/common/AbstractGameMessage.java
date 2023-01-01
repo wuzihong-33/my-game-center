@@ -6,7 +6,7 @@ public abstract class AbstractGameMessage implements IGameMessage {
 
 
     public AbstractGameMessage() {
-        GameMessageMetaData gameMessageMetaData = this.getClass().getAnnotation(GameMessageMetaData.class);
+        GameMessageMetadata gameMessageMetaData = this.getClass().getAnnotation(GameMessageMetadata.class);
         if (gameMessageMetaData == null) {
             throw new IllegalArgumentException("消息没有添加元数据注解：" + this.getClass().getName());
         }
@@ -15,7 +15,6 @@ public abstract class AbstractGameMessage implements IGameMessage {
         header.setServiceId(gameMessageMetaData.serviceId());
         header.setMessageType(gameMessageMetaData.messageType());
     }
-    
     
     @Override
     public GameMessageHeader getHeader() {

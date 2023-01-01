@@ -11,6 +11,7 @@
 
     <artifactId>my-game-network-param</artifactId>
     <dependencies>
+
         <dependency>
             <groupId>com.game</groupId>
             <artifactId>my-game-common</artifactId>
