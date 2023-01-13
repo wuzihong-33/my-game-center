@@ -93,10 +93,10 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-consul-discovery</artifactId>
         </dependency>
-<!--        <dependency>&lt;!&ndash; 引用Spring Cloud Bus依赖的消息队列，kafka &ndash;&gt;-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-bus-kafka</artifactId>-->
-<!--        </dependency>-->
+        <dependency><!-- 引用Spring Cloud Bus依赖的消息队列，kafka -->
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-kafka</artifactId>
+        </dependency>
 <!--         以下引用户单元测试框架用到包 -->
 <!--        <dependency>-->
 <!--            <groupId>org.powermock</groupId>-->
