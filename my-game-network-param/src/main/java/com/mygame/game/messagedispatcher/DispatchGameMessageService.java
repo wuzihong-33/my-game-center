@@ -24,7 +24,7 @@ public class DispatchGameMessageService {
     private Map<String, DispatcherMapping> dispatcherMappingMap = new HashMap<>();
     
     @Autowired
-    private ApplicationContext applicationContext;// 注入spring上下文
+    private ApplicationContext applicationContext;
 
 
     /**

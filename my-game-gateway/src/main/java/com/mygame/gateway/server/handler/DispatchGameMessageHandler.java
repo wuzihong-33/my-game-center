@@ -1,4 +1,4 @@
-package com.mygame.gateway.server.hander;
+package com.mygame.gateway.server.handler;
 
 
 import com.mygame.common.cloud.PlayerServiceInstance;
@@ -13,6 +13,7 @@ import io.netty.util.concurrent.*;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 
 /**
@@ -20,9 +21,9 @@ import org.springframework.kafka.core.KafkaTemplate;
  */
 public class DispatchGameMessageHandler extends ChannelInboundHandlerAdapter {
     private PlayerServiceInstance playerServiceInstance;// 注入业务服务管理类，从这里获取负载均衡的服务器信息
-    private GatewayServerConfig gatewayServerConfig; // 注入游戏网关服务配置信息。
     private JWTUtil.TokenBody tokenBody;
     private KafkaTemplate<String, byte[]> kafkaTemplate;
+    private GatewayServerConfig gatewayServerConfig; // 注入游戏网关服务配置信息。
     private static Logger logger = LoggerFactory.getLogger(DispatchGameMessageHandler.class);
 
     public DispatchGameMessageHandler(KafkaTemplate<String, byte[]> kafkaTemplate,PlayerServiceInstance playerServiceInstance, GatewayServerConfig gatewayServerConfig) {

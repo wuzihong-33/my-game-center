@@ -16,6 +16,8 @@
         <module>my-game-common</module>
         <module>my-game-web-gateway</module>
         <module>my-game-client</module>
+        <module>my-game-gateway-message-starter</module>
+        <module>my-game-xinyue</module>
     </modules>
 
     <!-- 配置Spring Boot -->

@@ -6,6 +6,7 @@ import io.netty.util.concurrent.Promise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
 
 import java.util.Map;
 import java.util.Set;
@@ -14,8 +15,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 缓存用户调用的服务对应的服务器id
  * 缓存playerId -> (serviceId->serverId)
- * 
  */
+@Service
 public class PlayerServiceInstance implements ApplicationListener<GameChannelCloseEvent> {
     // key: playerId；value: map(serviceId -> serverId)
     private Map<Long, Map<Integer, Integer>> serviceInstanceMap = new ConcurrentHashMap<>();
