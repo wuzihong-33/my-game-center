@@ -19,7 +19,20 @@
         <module>my-game-gateway-message-starter</module>
         <module>my-game-xinyue</module>
     </modules>
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <!-- 下面指定为自己需要的版本 -->
+                <configuration>
+                    <source>1.11</source>
+                    <target>1.11</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <!-- 配置Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -99,6 +112,8 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-kafka</artifactId>
         </dependency>
+        
+        
 <!--         以下引用户单元测试框架用到包 -->
 <!--        <dependency>-->
 <!--            <groupId>org.powermock</groupId>-->

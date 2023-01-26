@@ -34,10 +34,10 @@ public class RequestRateLimiterHandler extends ChannelInboundHandlerAdapter {
         int clientSeqId = gameMessagePackage.getHeader().getClientSeqId();
         if(lastClientSeqId > 0) {
             if(clientSeqId <= lastClientSeqId) {
-                return ;//直接返回，不再处理。
+                return ;
             }
         }
         this.lastClientSeqId = clientSeqId;
-        ctx.fireChannelRead(msg);//不要忘记添加这个，要不然后面的handler收不到消息
+        ctx.fireChannelRead(msg);
     }
 }

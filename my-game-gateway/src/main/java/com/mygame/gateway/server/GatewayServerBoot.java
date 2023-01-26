@@ -66,7 +66,7 @@ public class GatewayServerBoot {
         } finally {
 //            workerGroup.shutdownGracefully();
 //            bossGroup.shutdownGracefully();
-            stop();
+            stopServer();
         }
     }
 
@@ -94,7 +94,7 @@ public class GatewayServerBoot {
         return channelInitializer;
     }
 
-    public void stop() {// 优雅的关闭服务
+    public void stopServer() {// 优雅的关闭服务
         int quietPeriod = 5;
         int timeout = 30;
         TimeUnit timeUnit = TimeUnit.SECONDS;

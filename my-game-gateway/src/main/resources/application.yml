@@ -1,12 +1,6 @@
-logging:
-  config: file:config/log4j2.xml
 server:
   port: 6002
-#spring:
 
-#  profiles:
-#    active:
-#      - wgs   # 修改为自己的配置文件
 spring:
   application:
     name: game-gateway-001

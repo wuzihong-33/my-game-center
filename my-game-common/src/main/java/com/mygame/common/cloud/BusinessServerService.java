@@ -9,6 +9,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.client.discovery.event.HeartbeatEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
@@ -18,6 +19,7 @@ import java.util.*;
  * 维护serviceId对应的服务器列表，提供根据 (serviceId+playerId) 获取业务服务器的接口
  * 只负责提供负载均衡接口，不负责缓存记忆
  */
+@Service
 public class BusinessServerService implements ApplicationListener<HeartbeatEvent> {
     private Logger logger = LoggerFactory.getLogger(BusinessServerService.class);
     @Autowired

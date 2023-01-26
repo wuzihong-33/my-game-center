@@ -1,5 +1,3 @@
-logging:
-  config: D:\my-game-server\my-game-center\src\main\resources\log4j2.xml
 # 115.28.208.195
 server:
   port: 5003
