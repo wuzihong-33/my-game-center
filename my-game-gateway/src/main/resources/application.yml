@@ -1,9 +1,8 @@
 server:
   port: 6002
-
 spring:
   application:
-    name: game-gateway-001
+    name: game-gateway
   redis:
     host: localhost
     port: 6666
@@ -17,17 +16,22 @@ spring:
         ip-address: 127.0.0.1
         register: true   #将游戏网关做为服务节点，注册到Consul上面。
         service-name: game-gateway  #注册到Consul上面的服务名称，用于区分此服务是否为游戏网关
-        health-check-critical-timeout: 30s
+        instance-id: ${spring.application.name}:${server.port}
+        health-check-critical-timeout: 3000s
         tags:     # 可以自定义数据
           - gamePort=${game.gateway.server.config.port}  # 自定义数据，游戏网关的长连接端口
           - weight=3  # 游戏网关权重
             
-
+management:
+  endpoint:
+    health:
+      show-details: never
+      
 game:
   gateway:
     server:
       config:
-        port: 6003  # 游戏网关的长连接端口，这里的数据是自定义配置。
+        port: 6002  # 游戏网关的长连接端口，这里的数据是自定义配置。
         boss-thread-count: 1
         work-thread-count: 4
         server-id: 1001

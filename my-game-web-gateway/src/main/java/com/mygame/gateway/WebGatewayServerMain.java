@@ -7,8 +7,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-public class WebGameGatewayServerMain {
+public class WebGatewayServerMain {
     public static void main(String[] args) {
-        SpringApplication.run(WebGameGatewayServerMain.class, args);
+        SpringApplication.run(WebGatewayServerMain.class, args);
     }
 }

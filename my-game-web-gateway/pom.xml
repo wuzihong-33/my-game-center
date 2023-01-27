@@ -51,7 +51,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!-- 工程主入口 -->
-                    <mainClass>com.mygame.gateway.WebGameGatewayServerMain</mainClass>
+                    <mainClass>com.mygame.gateway.WebGatewayServerMain</mainClass>
                 </configuration>
                 <executions>
                     <execution>

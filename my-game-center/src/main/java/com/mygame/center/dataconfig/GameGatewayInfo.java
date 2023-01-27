@@ -1,5 +1,6 @@
 package com.mygame.center.dataconfig;
 
+
 public class GameGatewayInfo {
     private int id;       // 唯一id
     private String ip;    // 网关ip地址

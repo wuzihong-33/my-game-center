@@ -22,19 +22,17 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class RequestRateLimiterFilter implements GlobalFilter, Ordered {
+    private Logger logger = LoggerFactory.getLogger(RequestRateLimiterFilter.class);
     @Autowired
     private FilterConfig filterConfig;
-    
     private RateLimiter globalRateLimiter;
+    // 缓存 openId->用户的RateLimiter
     private LoadingCache<String, RateLimiter> userRateLimiterCache;
-    private Logger logger = LoggerFactory.getLogger(RequestRateLimiterFilter.class);
-    
     
     @PostConstruct
     public void init() {
         double permitsPerSecond = filterConfig.getGlobalRequestRateCount();
         globalRateLimiter = RateLimiter.create(permitsPerSecond);
-        // 创建用户cache
         long maximumSize = filterConfig.getCacheUserMaxCount();
         long duration = filterConfig.getCacheUserTimeout();
         userRateLimiterCache = CacheBuilder.newBuilder().maximumSize(maximumSize).expireAfterAccess(duration, TimeUnit.MILLISECONDS).build(new CacheLoader<String, RateLimiter>() {
@@ -47,23 +45,22 @@ public class RequestRateLimiterFilter implements GlobalFilter, Ordered {
         });
     }
 
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         String openId = exchange.getRequest().getHeaders().getFirst(CommonField.OPEN_ID);
         if (!StringUtils.isEmpty(openId)) {
             try {
                 RateLimiter userRateLimiter = userRateLimiterCache.get(openId);
-                if (!userRateLimiter.tryAcquire()) {// 尝试获取令牌失败，被限流
-                    this.tooManyRequest(exchange, chain);
+                if (!userRateLimiter.tryAcquire()) {// 尝试获取令牌失败
+                    this.tooManyRequest(exchange);
                 }
             } catch (ExecutionException e) {
                 logger.error("限流器异常", e);
-                return this.tooManyRequest(exchange, chain);
+                return this.tooManyRequest(exchange);
             }
         }
         if (!globalRateLimiter.tryAcquire()) {
-            return this.tooManyRequest(exchange, chain);
+            return this.tooManyRequest(exchange);
         }
         return chain.filter(exchange);// 成功获取令牌，放行
     }
@@ -73,11 +70,9 @@ public class RequestRateLimiterFilter implements GlobalFilter, Ordered {
         return Ordered.LOWEST_PRECEDENCE;
     }
     
-    private Mono<Void> tooManyRequest(ServerWebExchange exchange, GatewayFilterChain chain) {
+    private Mono<Void> tooManyRequest(ServerWebExchange exchange) {
         logger.info("请求太多，触发限流");
-        exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);// 请求失败，返回请求太多
+        exchange.getResponse().setStatusCode(HttpStatus.TOO_MANY_REQUESTS);
         return exchange.getResponse().setComplete();
     }
-    
-
 }

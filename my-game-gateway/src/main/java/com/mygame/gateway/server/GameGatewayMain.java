@@ -1,21 +1,23 @@
 package com.mygame.gateway.server;
 
 import java.util.concurrent.TimeUnit;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.ApplicationContext;
 import com.mygame.game.messagedispatcher.DispatchGameMessageService;
-import com.mygame.gateway.server.GatewayServerBoot;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutor;
 import io.netty.util.concurrent.EventExecutorGroup;
 
+@EnableDiscoveryClient(autoRegister=true)
 @SpringBootApplication(scanBasePackages = { "com.mygame" })
 public class GameGatewayMain {
 	public static void main(String[] args) {
 		ApplicationContext context = SpringApplication.run(GameGatewayMain.class, args);
 		DispatchGameMessageService.scanGameMessages(context, 1, "com.mygame");
-		GatewayServerBoot serverBoot = context.getBean(GatewayServerBoot.class);
+		GameGatewayServerBoot serverBoot = context.getBean(GameGatewayServerBoot.class);
 		serverBoot.startServer();
 	}
 

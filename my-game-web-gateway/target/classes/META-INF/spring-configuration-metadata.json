@@ -17,7 +17,7 @@
     {
       "name": "gateway.filter.cache-user-timeout",
       "type": "java.lang.Integer",
-      "description": "每个用户缓存的超时时间，超过个时间，从缓存中清除。单位毫秒",
+      "description": "单个用户的缓存有效期。单位毫秒",
       "sourceType": "com.mygame.gateway.filter.FilterConfig",
       "defaultValue": 0
     },
@@ -36,6 +36,7 @@
     {
       "name": "gateway.filter.white-request-uri",
       "type": "java.util.List<java.lang.String>",
+      "description": "请求权限验证白名单(白名单内的uri无需进行token验证)",
       "sourceType": "com.mygame.gateway.filter.FilterConfig"
     }
   ],

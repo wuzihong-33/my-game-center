@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.PostConstruct;
-
 import com.mygame.common.error.GameErrorException;
 import com.mygame.error.GameCenterError;
 import org.slf4j.Logger;
@@ -24,18 +23,18 @@ import com.google.common.cache.LoadingCache;
 import com.mygame.center.dataconfig.GameGatewayInfo;
 
 /**
- * 负责维护游戏服务网关信息：检测网关、网关分配
+ * 游戏服务器网关service类
  */
 @Service
 public class GameGatewayService implements ApplicationListener<HeartbeatEvent> {
     private Logger logger = LoggerFactory.getLogger(GameGatewayService.class);
-    private List<GameGatewayInfo> gameGatewayInfoList; // 有效的网关列表
+    private List<GameGatewayInfo> gameGatewayInfoList; // 游戏服务器网关信息列表
     @Autowired
     private DiscoveryClient discoveryClient; // 服务发现客户端实例
     private LoadingCache<Long, GameGatewayInfo> userGameGatewayCache;// 用户分配到的网关缓存
 
     /**
-     * 游戏服务中心启动之后，向Consul获取注册的游戏网关信息
+     * 游戏服务中心启动之后，向Consul获取 游戏网关信息
      */
     @PostConstruct
     public void init() {
@@ -56,7 +55,7 @@ public class GameGatewayService implements ApplicationListener<HeartbeatEvent> {
      * @return
      * @throws ExecutionException
      */
-    public  GameGatewayInfo getGameGatewayInfo(Long playerId) throws ExecutionException { 
+    public GameGatewayInfo getGameGatewayInfo(Long playerId) throws ExecutionException { 
         GameGatewayInfo gameGatewayInfo = userGameGatewayCache.get(playerId);
         if (gameGatewayInfo != null) {
             List<GameGatewayInfo> gameGatewayInfos = this.gameGatewayInfoList;
@@ -68,8 +67,19 @@ public class GameGatewayService implements ApplicationListener<HeartbeatEvent> {
         }
         return gameGatewayInfo;
     }
-    
-    
+
+    /**
+     * 根据心跳事件，刷新游戏网关列表信息
+     * @param event
+     */
+    @Override
+    public void onApplicationEvent(HeartbeatEvent event) {
+        this.refreshGameGatewayInfo();
+    }
+
+    /**
+     * 抓取游戏服务器网关 服务配置
+     */
     private void refreshGameGatewayInfo() {
         List<ServiceInstance> gameGatewayServiceInstances = discoveryClient.getInstances("game-gateway");
         logger.debug("抓取游戏网关配置成功,{}", gameGatewayServiceInstances);
@@ -79,19 +89,15 @@ public class GameGatewayService implements ApplicationListener<HeartbeatEvent> {
             int weight = this.getGameGatewayWeight(instance);
             for (int i = 0; i < weight; i++) {// 根据权重初始化游戏网关数量。
                 int id = gameGatewayId.getAndIncrement();
-                GameGatewayInfo gameGatewayInfo = this.newGameGatewayInfo(id, instance);// 构造游戏网关信息类
+                GameGatewayInfo gameGatewayInfo = this.buildGameGatewayInfo(id, instance);// 构造游戏网关信息类
                 initGameGatewayInfoList.add(gameGatewayInfo); // 网关实例和gameGatewayInfo不是一对一的关系；取决于weight大小
             }
         });
         Collections.shuffle(initGameGatewayInfoList);// 打乱一下顺序，让游戏网关分布更加均匀一些。
         this.gameGatewayInfoList = initGameGatewayInfoList;
     }
-    @Override
-    public void onApplicationEvent(HeartbeatEvent event) {
-        this.refreshGameGatewayInfo();// 根据心跳事件，刷新游戏网关列表信息。
-    }
 
-    private GameGatewayInfo newGameGatewayInfo(int id, ServiceInstance instance) {
+    private GameGatewayInfo buildGameGatewayInfo(int id, ServiceInstance instance) {
         GameGatewayInfo gameGatewayInfo = new GameGatewayInfo();
         gameGatewayInfo.setId(id);
         String ip = instance.getHost(); //网关服务注册的地址
@@ -120,11 +126,6 @@ public class GameGatewayService implements ApplicationListener<HeartbeatEvent> {
         return Integer.parseInt(value);
     }
 
-    /**
-     * 从当前有效的游戏网关列表中选择一个返回
-     * @param playerId
-     * @return
-     */
     private GameGatewayInfo selectGameGateway(Long playerId) {
         // 需要先引用一份出来，防止游戏网关列表发生变化，导致数据不一致
         // 可能出现，一个线程正准备从列表中取值，而此时列表刷新了，列表长度可能发生变化
@@ -137,6 +138,4 @@ public class GameGatewayService implements ApplicationListener<HeartbeatEvent> {
         int index = hashCode % gatewayCount;
         return temGameGatewayInfoList.get(index);
     }
-
-
 }

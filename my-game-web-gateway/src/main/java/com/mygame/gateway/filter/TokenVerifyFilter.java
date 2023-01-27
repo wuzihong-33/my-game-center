@@ -29,7 +29,7 @@ public class TokenVerifyFilter implements GlobalFilter, Ordered {
         String requestUri = exchange.getRequest().getURI().getPath();
         List<String> whiteRequestUris = filterConfig.getWhiteRequestUri();
         if (whiteRequestUris.contains(requestUri)) {
-            return chain.filter(exchange); // 跳过验证
+            return chain.filter(exchange); // 通过验证
         }
         String token = exchange.getRequest().getHeaders().getFirst(CommonField.TOKEN);
         if (StringUtils.isEmpty(token)) {
@@ -41,7 +41,8 @@ public class TokenVerifyFilter implements GlobalFilter, Ordered {
             JWTUtil.TokenBody tokenBody = JWTUtil.getTokenBody(token);
             // 把token中的openId和userId添加到Header中，转发到后面的服务
             ServerHttpRequest request = exchange.getRequest().mutate().header(CommonField.OPEN_ID, tokenBody.getOpenId()).header(CommonField.USER_ID, String.valueOf(tokenBody.getUserId())).build();
-            ServerWebExchange newExchange = exchange.mutate().request(request).build(); // exchange内部变量都是不变类型，因此需要使用mutate新建一个实例出来
+            // exchange内部变量都是不变类型，因此需要使用mutate新建一个实例出来
+            ServerWebExchange newExchange = exchange.mutate().request(request).build(); 
             return chain.filter(newExchange);
         } catch (TokenException e) {
             logger.debug("{} 请求验证失败,token非法", requestUri);

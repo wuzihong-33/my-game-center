@@ -13,7 +13,6 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import java.net.URI;
 
 public class UserLoadBalancerClientFilter extends LoadBalancerClientFilter {
-
     public UserLoadBalancerClientFilter(LoadBalancerClient loadBalancer, LoadBalancerProperties properties) {
         super(loadBalancer, properties);
     }

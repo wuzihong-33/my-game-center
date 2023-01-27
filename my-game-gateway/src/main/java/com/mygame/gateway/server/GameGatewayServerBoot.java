@@ -3,7 +3,6 @@ package com.mygame.gateway.server;
 import java.util.concurrent.TimeUnit;
 
 import com.mygame.gateway.server.handler.ConfirmHandler;
-import com.mygame.gateway.server.handler.DispatchGameMessageHandler;
 import com.mygame.gateway.server.handler.HeartbeatHandler;
 import com.mygame.gateway.server.handler.RequestRateLimiterHandler;
 import com.mygame.gateway.server.handler.codec.DecodeHandler;
@@ -14,7 +13,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import com.google.common.util.concurrent.RateLimiter;
-import com.mygame.common.cloud.PlayerServiceInstance;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -29,21 +27,22 @@ import com.mygame.gateway.server.handler.codec.EncodeHandler;
 
 
 @Service
-public class GatewayServerBoot {
+public class GameGatewayServerBoot {
+    private Logger logger = LoggerFactory.getLogger(GameGatewayServerBoot.class);
     @Autowired
     private GatewayServerConfig serverConfig;// 注入网关服务配置
-    @Autowired
-    private PlayerServiceInstance playerServiceInstance;
+//    @Autowired
+//    private PlayerServiceInstance playerServiceInstance;
     @Autowired
     private ChannelService channelService;
 //    @Autowired
     private KafkaTemplate<String, byte[]> kafkaTemplate = null;
-    private NioEventLoopGroup bossGroup = null;
-    private NioEventLoopGroup workerGroup = null;
-    private Logger logger = LoggerFactory.getLogger(GatewayServerBoot.class);
-    private RateLimiter globalRateLimiter;
     @Autowired
     private ApplicationContext applicationContext;
+    private NioEventLoopGroup bossGroup = null;
+    private NioEventLoopGroup workerGroup = null;
+    private RateLimiter globalRateLimiter;
+
 
     public void startServer() {
 //        globalRateLimiter = RateLimiter.create(serverConfig.getGlobalRequestPerSecond());
@@ -87,7 +86,7 @@ public class GatewayServerBoot {
                 int allIdleTimeSeconds = serverConfig.getAllIdleTimeSeconds();
                 p.addLast(new IdleStateHandler(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds));
                 p.addLast("HeartbeatHandler", new HeartbeatHandler());
-                p.addLast(new DispatchGameMessageHandler(kafkaTemplate, playerServiceInstance, serverConfig));
+//                p.addLast(new DispatchGameMessageHandler(kafkaTemplate, playerServiceInstance, serverConfig));
                 // p.addLast(new TestGameMessageHandler(gameMessageService));//添加业务实现
             }
         };

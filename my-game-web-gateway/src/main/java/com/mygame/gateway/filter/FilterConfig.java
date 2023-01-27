@@ -1,7 +1,6 @@
 package com.mygame.gateway.filter;
 
 
-//import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +9,9 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "gateway.filter")
 public class FilterConfig {
-    // 请求权限验证报名单，在该列表里边的url无需进行token验证
+    /**
+     * 请求权限验证白名单(白名单内的uri无需进行token验证)
+     */
     private List<String> whiteRequestUri;
     /**
      * 全局限流器每秒钟产生的令牌数
@@ -25,9 +26,10 @@ public class FilterConfig {
      */
     private int cacheUserMaxCount;
     /**
-     * 每个用户缓存的超时时间，超过个时间，从缓存中清除。单位毫秒
+     * 单个用户的缓存有效期。单位毫秒
      */
     private int cacheUserTimeout;
+    
     
     public double getGlobalRequestRateCount() {
         return globalRequestRateCount;
@@ -60,9 +62,7 @@ public class FilterConfig {
     public void setCacheUserTimeout(int cacheUserTimeout) {
         this.cacheUserTimeout = cacheUserTimeout;
     }
-
- 
-
+    
     public List<String> getWhiteRequestUri() {
         return whiteRequestUri;
     }

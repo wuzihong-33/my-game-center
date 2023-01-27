@@ -3,7 +3,6 @@ package com.mygame.common.error;
 import org.slf4j.helpers.MessageFormatter;
 
 public class GameErrorException extends RuntimeException {
-
     private static final long serialVersionUID = 1L;
     private IServerError error;
 
@@ -61,8 +60,4 @@ public class GameErrorException extends RuntimeException {
             }
         }
     }
-    
-    
-    
-    
 }

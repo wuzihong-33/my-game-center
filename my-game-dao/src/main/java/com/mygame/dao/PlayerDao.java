@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class PlayerDao extends AbstractDao<Player, Long> {
     @Autowired
-    private PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;// 实际具有io能力
     @Override
     protected EnumRedisKey getRedisKey() {
         return EnumRedisKey.PLAYER_INFO;

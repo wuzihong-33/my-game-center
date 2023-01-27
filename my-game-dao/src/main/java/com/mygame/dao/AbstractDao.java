@@ -48,7 +48,25 @@ public abstract class AbstractDao<Entity, ID> {
         
         return Optional.ofNullable(entity);
     }
+
+    /**
+     * 同时存储到redis和mongodb
+     * @param entity
+     * @param id
+     */
+    public void saveOrUpdate(Entity entity, ID id) {
+        this.updateRedis(entity, id);
+        this.getMongoRepository().save(entity);
+    }
+
+    public void saveOrUpdateToDB(Entity entity) {
+        this.getMongoRepository().save(entity);
+    }
     
+    public void saveOrUpdateToRedis(Entity entity,ID id) {
+        this.updateRedis(entity, id);
+    }
+
     private void setRedisDefaultValue(String key) {
         Duration duration = Duration.ofMinutes(1);
         redisTemplate.opsForValue().set(key, RedisDefaultValue, duration);
@@ -64,19 +82,4 @@ public abstract class AbstractDao<Entity, ID> {
             redisTemplate.opsForValue().set(key, value);
         }
     }
-
-    public void saveOrUpdate(Entity entity, ID id) {
-        this.updateRedis(entity, id);
-        this.getMongoRepository().save(entity);
-    }
-
-    public void saveOrUpdateToDB(Entity entity) {
-        this.getMongoRepository().save(entity);
-    }
-    
-    public void saveOrUpdateToRedis(Entity entity,ID id) {
-        this.updateRedis(entity, id);
-    }
-    
-    
 }

@@ -1,15 +1,10 @@
-# 115.28.208.195
 server:
   port: 5003
-#  servlet:
-#    context-path: /platform/v1
 spring:
   data:
     mongodb:
       host: localhost
       port: 27017
-#      username: my-game
-#      password: xxx123456
       authentication-database: admin
       database: my-game
   redis:
@@ -18,15 +13,6 @@ spring:
     password: 123456
   application:
     name: game-center-server   #服务名称
-#  cloud:   #愚蠢，多打了个clound
-#    consul:
-#      host: localhost    # consul服务的地址
-#      port: 8501         # consul服务的端口
-#      discovery:
-#        prefer-ip-address: true  #ip地址注册优先
-#        ip-address: 127.0.0.1    #要注册的服务ip
-##        healthCheckInterval: 15s
-##        health-check-path: /actuator/health   #心跳接口
   cloud:
     consul:
       host: localhost
@@ -41,4 +27,4 @@ spring:
 management:
   endpoint:
     health:
-      show-details: always
+      show-details: never

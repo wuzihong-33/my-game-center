@@ -8,17 +8,11 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 /**
  * 游戏服务中心
  */
-//@SpringBootApplication(scanBasePackages= {"com.mygame"})
 @EnableMongoRepositories(basePackages= {"com.mygame"})
 @SpringBootApplication(scanBasePackages = {"com.mygame"})
 @EnableDiscoveryClient
-public class WebGameCenterServerMain {
+public class GameCenterServerMain {
     public static void main(String[] args) {
-        try {
-            SpringApplication.run(WebGameCenterServerMain.class, args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SpringApplication.run(GameCenterServerMain.class, args);
     }
-
 }

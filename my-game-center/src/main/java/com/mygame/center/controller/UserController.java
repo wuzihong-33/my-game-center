@@ -28,21 +28,17 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/request")
 public class UserController {
+    private Logger logger = LoggerFactory.getLogger((UserController.class));
     @Autowired
     private UserService userService;
-    
     @Autowired
     private GameGatewayService gameGatewayService;
-    
     @Autowired
     private PlayerService playerService;
-
-    private Logger logger = LoggerFactory.getLogger((UserController.class));
-    
     
     @GetMapping("/test")
     public String test() {
-        logger.info("success");
+        logger.debug("/test request success");
         return "success";
     }
 
@@ -84,7 +80,6 @@ public class UserController {
         String openId = tokenBody.getOpenId();
         */
         // 在web网关处统一做token权限验证，服务中心则可以不再对token进行验证
-        // 上述一大段可以被修改为：
         String openId = userService.getOpenIdFromHeader(request);
         UserAccount userAccount = userService.getUserAccountByOpenId(openId);
 
