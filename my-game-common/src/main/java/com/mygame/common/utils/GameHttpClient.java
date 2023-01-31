@@ -27,7 +27,7 @@ import java.io.IOException;
 
 /**
  * 对Apache HttpClient组件进行封装
- * 由于与游戏服务中心的请求是Http
+ * 用于发送HTTP请求，比如从游戏服务中心获取游戏网关信息
  */
 public class GameHttpClient {
     private static Logger logger = LoggerFactory.getLogger(GameHttpClient.class);
@@ -35,10 +35,9 @@ public class GameHttpClient {
     private static CloseableHttpClient httpClient; // 线程安全的，因此所有线程可以一块使用它发送http请求
     static {
         try {
-            System.out.println("初始化HttpClientTest~~~开始");
             SSLContextBuilder builder = new SSLContextBuilder();
             builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
-            // 配置同时支持 HTTP 和 HTPPS
+            // 配置同时支持 HTTP 和 HTTPS
             Registry<ConnectionSocketFactory> socketFactoryRegistry = RegistryBuilder
                     .<ConnectionSocketFactory>create()
                     .register("http", PlainConnectionSocketFactory.getSocketFactory())
@@ -75,11 +74,15 @@ public class GameHttpClient {
         
         return httpClient;
     }
-    
+
+    /**
+     * 发送get请求
+     * @param url
+     * @return
+     */
     public static String get(String url) {
         HttpGet httpGet = new HttpGet(url);
         CloseableHttpResponse response = null;
-
         try {
             response = httpClient.execute(httpGet);
             String result = EntityUtils.toString(response.getEntity());
@@ -104,6 +107,13 @@ public class GameHttpClient {
         return null;
     }
 
+    /**
+     * 发送post请求
+     * @param uri
+     * @param params
+     * @param heads
+     * @return
+     */
     public static String post(String uri, Object params, Header... heads) {
         HttpPost httpPost = new HttpPost(uri);
         CloseableHttpResponse response = null;
@@ -137,5 +147,4 @@ public class GameHttpClient {
         }
         return null;
     }
-    
 }

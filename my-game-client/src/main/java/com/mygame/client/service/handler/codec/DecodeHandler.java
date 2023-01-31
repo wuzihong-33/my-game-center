@@ -45,7 +45,7 @@ public class DecodeHandler extends ChannelInboundHandlerAdapter {
                 }
             }
             GameMessageHeader header = new GameMessageHeader();
-            header.setClientSeqId(clientSeqId);
+            header.setSeqId(clientSeqId);
             header.setErrorCode(errorCode);
             header.setMessageId(messageId);
             header.setServerSendTime(serverSendTime);
@@ -55,6 +55,7 @@ public class DecodeHandler extends ChannelInboundHandlerAdapter {
             GameMessagePackage gameMessagePackage = new GameMessagePackage();// 构造数据包
             gameMessagePackage.setHeader(header);
             gameMessagePackage.setBody(body);
+            // 为什么debug不能打印出来？？
             logger.debug("接收服务器消息,大小：{}:<-{}", messageSize, header);
             ctx.fireChannelRead(gameMessagePackage);// 往后传
         } finally {

@@ -11,10 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class EncodeHandler extends MessageToByteEncoder<GameMessagePackage> {
     private static final int GAME_MESSAGE_HEADER_LEN = 29;
-    @Autowired
+//    @Autowired
     private GatewayServerConfig serverConfig;
     
     private String aesSecret;// 对称加密密钥
+
+    // 光有@Autowired注释还不行，还得加上set或者构造器注入
+    public EncodeHandler(GatewayServerConfig serverConfig) {
+        this.serverConfig = serverConfig;// 注入服务端配置
+    }
 
     public void setAesSecret(String aesSecret) {
         this.aesSecret = aesSecret;
@@ -26,18 +31,19 @@ public class EncodeHandler extends MessageToByteEncoder<GameMessagePackage> {
         byte[] body = msg.getBody();
         int compress = 0;
         if (body != null) {
+            // 下边这一步报错。serverConfig==null
             if (body.length >= serverConfig.getCompressMessageSize()) {
-                body = CompressUtil.compress(body);
+//                body = CompressUtil.compress(body);
                 compress = 1;
             }
-            if (this.aesSecret != null && msg.getHeader().getMessageId() != 1) {
-//                 body = AESUtils.encode(aesSecret, body);
-            }
+//            if (this.aesSecret != null && msg.getHeader().getMessageId() != 1) {
+////                 body = AESUtils.encode(aesSecret, body);
+//            }
             messageSize += body.length;
         }
         out.writeInt(messageSize);
         GameMessageHeader header = msg.getHeader();
-        out.writeInt(header.getClientSeqId());
+        out.writeInt(header.getSeqId());
         out.writeInt(header.getMessageId());
         out.writeLong(header.getServerSendTime());
         out.writeInt(header.getVersion());

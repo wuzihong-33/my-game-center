@@ -16,28 +16,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 实现消息自动分发
+ */
 @Service
 public class DispatchGameMessageService {
     private Logger logger = LoggerFactory.getLogger(DispatchGameMessageService.class);
-    
-    // 消息类型String名称 -> DispatcherMapping（消息处理类，具体的某个消息处理方法）的映射
-    private Map<String, DispatcherMapping> dispatcherMappingMap = new HashMap<>();
-    
     @Autowired
     private ApplicationContext applicationContext;
-
+    // 消息类型String名称 -> DispatcherMapping（消息处理类，具体的某个消息处理方法）的映射
+    private Map<String, DispatcherMapping> dispatcherMappingMap = new HashMap<>();
 
     /**
      * 服务id，如果为0,则加载所有的消息类型，如果不为零，则只加载此类型的消息。
      * @param applicationContext
      * @param serviceId
-     * @param packagePath
+     * @param packagePath 需要扫描的handler的path
      */
     public static void scanGameMessages(ApplicationContext applicationContext, int serviceId, String packagePath) {// 构造一个方便的调用方法
         DispatchGameMessageService dispatchGameMessageService = applicationContext.getBean(DispatchGameMessageService.class);
         dispatchGameMessageService.scanGameMessages(serviceId, packagePath);
     }
-
 
     /**
      * 目的：建立起 消息类型String名称 -> DispatcherMapping（消息处理类，具体的某个消息处理方法）的映射
@@ -71,10 +70,11 @@ public class DispatchGameMessageService {
                 }
             });
         }
+        logger.info("DispatchGameMessageService消息自动分发设计, 维护:{}", dispatcherMappingMap.toString());
     }
 
     /**
-     * 当收到网络消息之后，调用此方法。
+     * 通过反射调用消息处理函数
      * @param gameMessage
      * @param ctx
      */
@@ -86,10 +86,10 @@ public class DispatchGameMessageService {
             try {
                 dispatcherMapping.getTargetMethod().invoke(obj, gameMessage, ctx);// 调用处理消息的方法
             } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-                logger.error("调用方法异常，方法所在类：{}，方法名：{}", obj.getClass().getName(), dispatcherMapping.getTargetMethod().getName(), e);
+                logger.error("调用方法异常，class: {}, method: {}, e: {}", obj.getClass().getName(), dispatcherMapping.getTargetMethod().getName(), e);
             }
         } else {
-            logger.warn("消息未找到处理的方法，消息名：{}", key);
+            logger.warn("未能找到消息对应的处理方法，消息名：{}", key);
         }
     }
 }

@@ -9,4 +9,11 @@ public class NettyUtils {
         String remoteHost = ipSocket.getAddress().getHostAddress();
         return remoteHost;
     }
+
+    public static String  getRemoteUrl(Channel channel) {
+        InetSocketAddress ipSocket = (InetSocketAddress)channel.remoteAddress();
+        String remoteAddress = ipSocket.getAddress().getHostAddress();
+        int port = ipSocket.getPort();
+        return remoteAddress+":"+port;
+    }
 }

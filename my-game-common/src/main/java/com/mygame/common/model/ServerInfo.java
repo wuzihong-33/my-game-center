@@ -1,7 +1,7 @@
 package com.mygame.common.model;
 
 public class ServerInfo {
-    private int serviceId; //服务id，与GameMessageMetadata中的一致
+    private int serviceId; //服务id
     private int serverId;  //服务器id
     private String host;
     private int port;

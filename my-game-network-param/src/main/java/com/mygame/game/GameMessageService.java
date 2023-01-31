@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * 实现消息协议的自动序列化和反序列化
+ */
 @Service
 public class GameMessageService {
     private Logger logger = LoggerFactory.getLogger(GameMessageService.class);
@@ -37,7 +40,7 @@ public class GameMessageService {
                 gameMessageClassMap.put(key, clazz);
             }
         });
-        
+        logger.error("建立 (MessageType:messageId) -> messageClass  映射关系{}", gameMessageClassMap.toString());        
     }
     private String getMessageClassCacheKey(EnumMessageType type, int messageId) {
         return messageId + ":" + type.name();

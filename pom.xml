@@ -60,6 +60,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+            
             <exclusions>
                 <!-- 去掉Spring boot默认的日志，使用下面配置的log4j2 -->
                 <exclusion>
@@ -89,15 +90,15 @@
             </exclusions>
             <scope>test</scope>
         </dependency>
-<!--        <dependency>&lt;!&ndash; 引入配置管理 &ndash;&gt;-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-configuration-processor</artifactId>-->
-<!--            <optional>true</optional>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-actuator</artifactId>-->
-<!--        </dependency>-->
+        <dependency><!-- 引入配置管理 -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -111,6 +112,7 @@
         <dependency><!-- 引用Spring Cloud Bus依赖的消息队列，kafka -->
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-kafka</artifactId>
+            <version>2.2.4.RELEASE</version>
         </dependency>
         
         

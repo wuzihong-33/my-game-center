@@ -144,9 +144,9 @@ public class GameChannel {
     }
 
     protected void unsafeSendRpcMessage(IGameMessage gameMessage, Promise<IGameMessage> callback) {
-        if (gameMessage.getHeader().getMesasageType() == EnumMesasageType.RPC_REQUEST) {
+        if (gameMessage.getHeader().getMesasageType() == EnumMessageType.RPC_REQUEST) {
             this.gameRpcSendFactory.sendRPCRequest(gameMessage, callback);
-        } else if (gameMessage.getHeader().getMesasageType() == EnumMesasageType.RPC_RESPONSE) {
+        } else if (gameMessage.getHeader().getMesasageType() == EnumMessageType.RPC_RESPONSE) {
             this.gameRpcSendFactory.sendRPCResponse(gameMessage);
         }
     }

@@ -12,6 +12,9 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.lang.RandomStringUtils;
 
+/**
+ * 对称加密工具类
+ */
 public class AESUtils {
     public static String createSecret(long userId, String zoneId) {
         return RandomStringUtils.randomAscii(16);

@@ -42,7 +42,7 @@ public class EncodeHandler extends MessageToByteEncoder<IGameMessage> {
         byte[] body = msg.body();
         int compress = 0;//标记包体是否进行了压缩
         if (body != null) {
-            if (body.length >= gameClientConfig.getMessageCompressSize()) { // 从配置中获取达到压缩的包体的最小大小。
+            if (body.length >= gameClientConfig.getMessageCompressThreshold()) { // 从配置中获取达到压缩的包体的最小大小。
                 body = CompressUtil.compress(body);//包体大小达到压缩的最上值时，对包体进行压缩
                 compress = 1;
             }

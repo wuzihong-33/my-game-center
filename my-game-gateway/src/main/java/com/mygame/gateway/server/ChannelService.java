@@ -78,7 +78,7 @@ public class ChannelService {
         lock.writeLock().lock();
         try {
             task.run();
-        }catch (Exception e) {  //统一异常捕获
+        }catch (Exception e) {
             logger.error("ChannelService写锁处理异常",e);
         } finally {
             lock.writeLock().unlock();

@@ -29,7 +29,7 @@ public class GameMessageInnerDecoder {
         byteBuf.writeInt(initialCapacity);//依次写入包头的数据
         byteBuf.writeInt(header.getToServerId());
         byteBuf.writeInt(header.getFromServerId());
-        byteBuf.writeInt(header.getClientSeqId());
+        byteBuf.writeInt(header.getSeqId());
         byteBuf.writeInt(header.getMessageId());
         byteBuf.writeInt(header.getServiceId());
         byteBuf.writeInt(header.getVersion());
@@ -88,7 +88,7 @@ public class GameMessageInnerDecoder {
         GameMessageHeader header = new GameMessageHeader();//向包头对象中添加数据
         header.setAttribute(headerAttr);
         header.setClientSendTime(clientSendTime);
-        header.setClientSeqId(clientSeqId);
+        header.setSeqId(clientSeqId);
         header.setErrorCode(errorCode);
         header.setFromServerId(fromServerId);
         header.setMessageId(messageId);

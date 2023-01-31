@@ -1,5 +1,6 @@
 package com.mygame.http.response;
 
+import com.alibaba.fastjson.JSONObject;
 import com.mygame.common.error.IServerError;
 
 
@@ -28,6 +29,30 @@ public class ResponseEntity<T> {
         super();
         this.data = data;
     }
+
+    /**
+     * 将JSON字符串反序列化封装成ResponseEntity<T>实例
+     * @param response
+     * @param t
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponseEntity<T> parseObject(String response, Class<T> t) {
+        JSONObject root = JSONObject.parseObject(response);
+        int code = root.getIntValue("code");
+        ResponseEntity<T> result = new ResponseEntity<>();
+        if (code == 0) {
+            JSONObject dataJson = root.getJSONObject("data");
+            T data = dataJson.toJavaObject(t);
+            result.setData(data);
+        } else {
+            String errorMsg = root.getString("errorMsg");
+            result.setCode(code);
+            result.setErrorMsg(errorMsg);
+        }
+        return result;
+    }
+    
 
     public int getCode() {
         return code;

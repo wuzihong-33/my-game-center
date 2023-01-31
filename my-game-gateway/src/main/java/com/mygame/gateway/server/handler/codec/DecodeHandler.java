@@ -51,7 +51,7 @@ public class DecodeHandler extends ChannelInboundHandlerAdapter {
             }
             GameMessageHeader header = new GameMessageHeader();
             header.setClientSendTime(clientSendTime);
-            header.setClientSeqId(clientSeqId);
+            header.setSeqId(clientSeqId);
             header.setMessageId(messageId);
             header.setServiceId(serviceId);
             header.setMessageSize(messageSize);

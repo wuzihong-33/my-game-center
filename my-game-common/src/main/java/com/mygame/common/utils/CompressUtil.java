@@ -10,7 +10,6 @@ import java.util.zip.GZIPOutputStream;
  * 压缩和解压缩 数据包 工具类
  */
 public class CompressUtil {
-
     public static byte[] compress(byte[] msg) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         GZIPOutputStream gzip = new GZIPOutputStream(bos);

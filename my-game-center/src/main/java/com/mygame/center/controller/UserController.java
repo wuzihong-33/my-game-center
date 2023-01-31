@@ -98,6 +98,14 @@ public class UserController {
         return response;
     }
 
+    /**
+     * {
+     *     "openId":"test_openId",
+     *     "playerId":1,
+     *     "userId":1,
+     *     "zoneId":"1"
+     * }
+     */
     @PostMapping(MessageCode.SELECT_GAME_GATEWAY)
     public Object selectGameGateway(@RequestBody SelectGameGatewayParam param) throws Exception {
         param.checkParam();

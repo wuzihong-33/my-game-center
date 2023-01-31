@@ -28,21 +28,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class GatewayMessageConsumerService {
     private IMessageSendFactory gameGatewayMessageSendFactory;// 默认实现的消息发送接口，GameChannel返回的消息通过此接口发送到kafka中
-//    private GameRpcService gameRpcSendFactory;
-    private Logger logger = LoggerFactory.getLogger(GatewayMessageConsumerService.class);
+
     @Autowired
     private GameChannelConfig serverConfig;// GameChannel的一些配置信息
     @Autowired
     private GameMessageService gameMessageService; // 消息管理类，负责管理根据消息id，获取对应的消息类实例
     @Autowired
-    private KafkaTemplate<String, byte[]> kafkaTemplate; 
-    private GameMessageEventDispatchService gameChannelService;
-    private GameEventExecutorGroup workerGroup;// 业务处理的线程池
-    private EventExecutorGroup rpcWorkerGroup = new DefaultEventExecutorGroup(2);
+    private KafkaTemplate<String, byte[]> kafkaTemplate;
     @Autowired
     private PlayerServiceInstance playerServiceInstance;
     @Autowired
     private ApplicationContext context;
+    
+    private GameMessageEventDispatchService gameChannelService;
+    private GameEventExecutorGroup workerGroup;// 业务处理的线程池
+    private EventExecutorGroup rpcWorkerGroup = new DefaultEventExecutorGroup(2);
+    //    private GameRpcService gameRpcSendFactory;
+    private Logger logger = LoggerFactory.getLogger(GatewayMessageConsumerService.class);
     
     public void setMessageSendFactory(IMessageSendFactory messageSendFactory) {
         this.gameGatewayMessageSendFactory = messageSendFactory;

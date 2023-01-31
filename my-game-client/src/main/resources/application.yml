@@ -1,10 +1,14 @@
 spring:
   application:
     name: game-client
+#  cloud:
+#    consul:
+#      discovery:
+#        enabled: false   #不作为服务，不用连接consul，获取服务实例列表
 
 game:
   client:
     config:
-      use-game-center: true
-      game-center-url: http://localhost:5001/game-center-server
+      use-game-center: false
+      game-center-url: http://localhost:5003/game-center-server
       

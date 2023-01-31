@@ -1,7 +1,8 @@
-package com.mygame.gateway.server;
+package com.mygame.gateway;
 
 import java.util.concurrent.TimeUnit;
 
+import com.mygame.gateway.server.GameGatewayServerBoot;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;

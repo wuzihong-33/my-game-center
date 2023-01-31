@@ -7,6 +7,9 @@ import com.mygame.game.common.GameMessagePackage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
+/**
+ * 限流器
+ */
 public class RequestRateLimiterHandler extends ChannelInboundHandlerAdapter {
     private RateLimiter globalRateLimiter; // 全局限制器
     private static RateLimiter userRateLimiter;// 用户限流器，用于限制单个用户的请求。
@@ -31,7 +34,7 @@ public class RequestRateLimiterHandler extends ChannelInboundHandlerAdapter {
         }
         
         GameMessagePackage gameMessagePackage = (GameMessagePackage)msg;
-        int clientSeqId = gameMessagePackage.getHeader().getClientSeqId();
+        int clientSeqId = gameMessagePackage.getHeader().getSeqId();
         if(lastClientSeqId > 0) {
             if(clientSeqId <= lastClientSeqId) {
                 return ;

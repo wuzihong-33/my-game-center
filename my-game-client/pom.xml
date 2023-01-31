@@ -12,14 +12,24 @@
     <artifactId>my-game-client</artifactId>
     <dependencies>
         <dependency>
+            <groupId>com.game</groupId>
+            <artifactId>my-game-network-param</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.game</groupId>
+            <artifactId>my-game-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.shell</groupId>
             <artifactId>spring-shell-starter</artifactId>
             <version>2.0.1.RELEASE</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
         <dependency>
-            <groupId>com.game</groupId>
-            <artifactId>my-game-network-param</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
         </dependency>
 
     </dependencies>

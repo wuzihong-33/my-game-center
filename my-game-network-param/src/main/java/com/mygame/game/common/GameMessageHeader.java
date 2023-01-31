@@ -1,18 +1,18 @@
 package com.mygame.game.common;
 
 public class GameMessageHeader implements Cloneable {
-    private int messageSize;          // 消息总长度，方便从tcp流中截取完整的数据包
-    private int messageId;            // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private int serviceId;            // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private long clientSendTime;      // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private long serverSendTime;      // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private int clientSeqId;          // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private int version;              // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private int errorCode;            // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private int fromServerId;         // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private int toServerId;           // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private long playerId;            // 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
-    private EnumMessageType messageType;// 消息请求id，每个消息都有唯一递增的id，用于消息的幂等处理
+    private int messageSize;          // 消息总长度
+    private int messageId;            // 消息号
+    private int serviceId;            // 服务号
+    private long clientSendTime;      // 客户端发送时间
+    private long serverSendTime;      // 服务端发送时间
+    private int seqId;                // 数据包序列号
+    private int version;              // 协议版本
+    private int errorCode;            // 错误码；如果非0，则包体为空
+    private int fromServerId;         
+    private int toServerId;           
+    private long playerId;            
+    private EnumMessageType messageType;
     private HeaderAttribute attribute = new HeaderAttribute(); // 包头扩展
 
     public int getMessageSize() {
@@ -55,12 +55,12 @@ public class GameMessageHeader implements Cloneable {
         this.serverSendTime = serverSendTime;
     }
 
-    public int getClientSeqId() {
-        return clientSeqId;
+    public int getSeqId() {
+        return seqId;
     }
 
-    public void setClientSeqId(int clientSeqId) {
-        this.clientSeqId = clientSeqId;
+    public void setSeqId(int seqId) {
+        this.seqId = seqId;
     }
 
     public int getVersion() {
