@@ -10,6 +10,9 @@ import io.netty.util.internal.ThrowableUtil;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
+/**
+ * handler上下文封装类
+ */
 public abstract class AbstractGameChannelHandlerContext {
     static final InternalLogger logger = InternalLoggerFactory.getInstance(DefaultChannelPipeline.class);
     volatile AbstractGameChannelHandlerContext next;
@@ -27,7 +30,89 @@ public abstract class AbstractGameChannelHandlerContext {
         this.inbound = inbound;
         this.outbound = outbound;
     }
+    
+    public GameChannel gameChannel() {
+        return pipeline.gameChannel();
+    }
+    public GameChannelPipeline pipeline() {
+        return pipeline;
+    }
+    
+    public String name() {
+        return name;
+    }
+    
+    public EventExecutor executor() {
+        if (executor == null) {
+            return gameChannel().executor();
+        } else {
+            return executor;
+        }
+    }
+    
+    public AbstractGameChannelHandlerContext fireChannelRead(final Object msg) {
+        invokeChannelRead(findContextInbound(), msg);
+        return this;
+    }
+    
+    public AbstractGameChannelHandlerContext fireChannelInactive() {
+        invokeChannelInactive(findContextInbound());
+        return this;
+    }
 
+    public AbstractGameChannelHandlerContext fireExceptionCaught(final Throwable cause) {
+        invokeExceptionCaught(next, cause);
+        return this;
+    }
+
+    public AbstractGameChannelHandlerContext fireChannelRegistered(long playerId, GameChannelPromise promise) {
+        invokeChannelRegistered(findContextInbound(), playerId, promise);
+        return this;
+    }
+
+//    public AbstractGameChannelHandlerContext fireUserEventTriggered(final Object event, Promise<Object> promise) {
+//        invokeUserEventTriggered(findContextInbound(), event, promise);
+//        return this;
+//    }
+
+    public GameChannelFuture writeAndFlush(IGameMessage msg) {
+        return writeAndFlush(msg, newPromise());
+    }
+
+    public GameChannelPromise newPromise() {
+        return new DefaultGameChannelPromise(gameChannel(), this.executor());
+    }
+
+    public GameChannelFuture writeAndFlush(IGameMessage msg, GameChannelPromise promise) {
+        AbstractGameChannelHandlerContext next = findContextOutbound();
+        EventExecutor executor = next.executor();
+        if (executor.inEventLoop()) {
+            next.invokeWrite(msg, promise);
+        } else {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    next.invokeWrite(msg, promise);
+                }
+            });
+        }
+        return promise;
+    }
+
+    static void invokeChannelRegistered(final AbstractGameChannelHandlerContext next, long playerId, GameChannelPromise promise) {
+        EventExecutor executor = next.executor();
+        if (executor.inEventLoop()) {
+            next.invokeChannelRegistered(playerId, promise);
+        } else {
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    next.invokeChannelRegistered(playerId, promise);
+                }
+            });
+        }
+    }
+    
     private AbstractGameChannelHandlerContext findContextInbound() {
         AbstractGameChannelHandlerContext ctx = this;
         do {
@@ -42,26 +127,6 @@ public abstract class AbstractGameChannelHandlerContext {
             ctx = ctx.prev;
         } while (!ctx.outbound);
         return ctx;
-    }
-
-    public GameChannel gameChannel() {
-        return pipeline.gameChannel();
-    }
-    public GameChannelPipeline pipeline() {
-        return pipeline;
-    }
-    
-    public EventExecutor executor() {
-        if (executor == null) {
-            return gameChannel().executor();
-        } else {
-            return executor;
-        }
-    }
-    
-    public AbstractGameChannelHandlerContext fireChannelInactive() {
-        invokeChannelInactive(findContextInbound());
-        return this;
     }
 
     static void invokeChannelInactive(final AbstractGameChannelHandlerContext next) {
@@ -84,12 +149,6 @@ public abstract class AbstractGameChannelHandlerContext {
         } catch (Throwable t) {
             notifyHandlerException(t);
         }
-    }
-
-    
-    public AbstractGameChannelHandlerContext fireExceptionCaught(final Throwable cause) {
-        invokeExceptionCaught(next, cause);
-        return this;
     }
 
     static void invokeExceptionCaught(final AbstractGameChannelHandlerContext next, final Throwable cause) {
@@ -127,27 +186,9 @@ public abstract class AbstractGameChannelHandlerContext {
 
     }
 
-    public AbstractGameChannelHandlerContext fireChannelRegistered(long playerId, GameChannelPromise promise) {
-        invokeChannelRegistered(findContextInbound(), playerId, promise);
-        return this;
-    }
 
-    static void invokeChannelRegistered(final AbstractGameChannelHandlerContext next, long playerId, GameChannelPromise promise) {
-        EventExecutor executor = next.executor();
-        if (executor.inEventLoop()) {
-            next.invokeChannelRegistered(playerId, promise);
-        } else {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    next.invokeChannelRegistered(playerId, promise);
-                }
-            });
-        }
-    }
 
     private void invokeChannelRegistered(long playerId, GameChannelPromise promise) {
-
         try {
             ((GameChannelInboundHandler) handler()).channelRegister(this, playerId, promise);
         } catch (Throwable t) {
@@ -155,38 +196,32 @@ public abstract class AbstractGameChannelHandlerContext {
         }
     }
 
-    public AbstractGameChannelHandlerContext fireUserEventTriggered(final Object event, Promise<Object> promise) {
-        invokeUserEventTriggered(findContextInbound(), event, promise);
-        return this;
-    }
 
-    static void invokeUserEventTriggered(final AbstractGameChannelHandlerContext next, final Object event, Promise<Object> promise) {
-        ObjectUtil.checkNotNull(event, "event");
-        EventExecutor executor = next.executor();
-        if (executor.inEventLoop()) {
-            next.invokeUserEventTriggered(event, promise);
-        } else {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    next.invokeUserEventTriggered(event, promise);
-                }
-            });
-        }
-    }
 
-    private void invokeUserEventTriggered(Object event, Promise<Object> promise) {
-        try {
-            ((GameChannelInboundHandler) handler()).userEventTriggered(this, event, promise);
-        } catch (Throwable t) {
-            notifyHandlerException(t);
-        }
-    }
+//    static void invokeUserEventTriggered(final AbstractGameChannelHandlerContext next, final Object event, Promise<Object> promise) {
+//        ObjectUtil.checkNotNull(event, "event");
+//        EventExecutor executor = next.executor();
+//        if (executor.inEventLoop()) {
+//            next.invokeUserEventTriggered(event, promise);
+//        } else {
+//            executor.execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    next.invokeUserEventTriggered(event, promise);
+//                }
+//            });
+//        }
+//    }
 
-    public AbstractGameChannelHandlerContext fireChannelRead(final Object msg) {
-        invokeChannelRead(findContextInbound(), msg);
-        return this;
-    }
+//    private void invokeUserEventTriggered(Object event, Promise<Object> promise) {
+//        try {
+//            ((GameChannelInboundHandler) handler()).userEventTriggered(this, event, promise);
+//        } catch (Throwable t) {
+//            notifyHandlerException(t);
+//        }
+//    }
+
+
 
     static void invokeChannelRead(final AbstractGameChannelHandlerContext next, final Object msg) {
         ObjectUtil.checkNotNull(msg, "msg");
@@ -215,6 +250,7 @@ public abstract class AbstractGameChannelHandlerContext {
         invokeChannelReadRPCRequest(findContextInbound(), msg);
         return this;
     }
+    
     static void invokeChannelReadRPCRequest(final AbstractGameChannelHandlerContext next, final IGameMessage msg) {
         ObjectUtil.checkNotNull(msg, "msg");
         EventExecutor executor = next.executor();
@@ -270,29 +306,6 @@ public abstract class AbstractGameChannelHandlerContext {
     }
 
 
-    public GameChannelFuture writeAndFlush(IGameMessage msg) {
-        return writeAndFlush(msg, newPromise());
-    }
-
-    public GameChannelPromise newPromise() {
-        return new DefaultGameChannelPromise(gameChannel(), this.executor());
-    }
-    
-    public GameChannelFuture writeAndFlush(IGameMessage msg, GameChannelPromise promise) {
-        AbstractGameChannelHandlerContext next = findContextOutbound();
-        EventExecutor executor = next.executor();
-        if (executor.inEventLoop()) {
-            next.invokeWrite(msg, promise);
-        } else {
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    next.invokeWrite(msg, promise);
-                }
-            });
-        }
-        return promise;
-    }
 
     private void invokeWrite(IGameMessage msg, GameChannelPromise promise) {
         try {
@@ -333,6 +346,8 @@ public abstract class AbstractGameChannelHandlerContext {
     public GameChannelFuture close() {
         return this.close(new DefaultGameChannelPromise(this.gameChannel()));
     }
+
+    public abstract GameChannelHandler handler();
 
     public GameChannelFuture close(final GameChannelPromise promise) {
 
@@ -378,10 +393,5 @@ public abstract class AbstractGameChannelHandlerContext {
             return false;
         }
     }
-
-    public abstract GameChannelHandler handler();
-
-    
-
 
 }

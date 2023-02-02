@@ -105,6 +105,17 @@ public class JWTUtil {
         }
 
     }
-
-
+    
+    //client私钥：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCWVBVpyo/cAF+NLI2eRw5MlZFrjnes3FzOk5V7u85Ek7A7YnNIGDhspXTXN1EVbLXmPMkTdmJmNV8ND5rc04+oPQylIQPYlnteMzcy+fD+zn0immfojEqY/TqgwcdvPTSWbXKcYoMuXXZ2iZumBJ3lspCOLFxqJc7br6eDKNnCFQIDAQAB
+//    {
+//        "createTime": 1670677208823,
+//            "openId": "012345",
+//            "userId": 2,
+//            "zonePlayerInfo": {}
+//    }
+    public static void main(String[] args) {
+        // 构造一个有client公钥的token
+        String token = JWTUtil.getUserToken("012345", 2, 0, "-1", "", "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCWVBVpyo/cAF+NLI2eRw5MlZFrjnes3FzOk5V7u85Ek7A7YnNIGDhspXTXN1EVbLXmPMkTdmJmNV8ND5rc04+oPQylIQPYlnteMzcy+fD+zn0immfojEqY/TqgwcdvPTSWbXKcYoMuXXZ2iZumBJ3lspCOLFxqJc7br6eDKNnCFQIDAQAB");
+        System.out.println(token);
+    }
 }

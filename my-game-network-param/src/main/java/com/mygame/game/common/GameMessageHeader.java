@@ -9,12 +9,19 @@ public class GameMessageHeader implements Cloneable {
     private int seqId;                // 数据包序列号
     private int version;              // 协议版本
     private int errorCode;            // 错误码；如果非0，则包体为空
-    private int fromServerId;         
-    private int toServerId;           
-    private long playerId;            
-    private EnumMessageType messageType;
-    private HeaderAttribute attribute = new HeaderAttribute(); // 包头扩展
+    private int fromServerId;         // 包的发送服务器id
+    private int toServerId;           // 包的接受服务id
+    private long playerId;            // pid
+    private int clientSeqId;          // 主要用于实现Promise回调
+    private EnumMessageType messageType; // 消息类型
+    private HeaderAttribute attribute = new HeaderAttribute(); // 包头扩展，使用JSON序列化
 
+    @Override
+    public GameMessageHeader clone() throws CloneNotSupportedException {
+        GameMessageHeader newHeader = (GameMessageHeader) super.clone();
+        return newHeader;
+    }
+    
     public int getMessageSize() {
         return messageSize;
     }
@@ -117,5 +124,13 @@ public class GameMessageHeader implements Cloneable {
 
     public void setAttribute(HeaderAttribute attribute) {
         this.attribute = attribute;
+    }
+
+    public int getClientSeqId() {
+        return clientSeqId;
+    }
+
+    public void setClientSeqId(int clientSeqId) {
+        this.clientSeqId = clientSeqId;
     }
 }

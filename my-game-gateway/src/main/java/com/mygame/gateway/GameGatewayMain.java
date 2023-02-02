@@ -12,7 +12,7 @@ import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutor;
 import io.netty.util.concurrent.EventExecutorGroup;
 
-@EnableDiscoveryClient(autoRegister=true)
+@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = { "com.mygame" })
 public class GameGatewayMain {
 	public static void main(String[] args) {

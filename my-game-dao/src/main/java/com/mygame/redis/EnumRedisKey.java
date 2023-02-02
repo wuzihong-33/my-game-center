@@ -32,5 +32,5 @@ public enum EnumRedisKey {
     public String getKey() {
         return this.name();
     }
-    
+
 }

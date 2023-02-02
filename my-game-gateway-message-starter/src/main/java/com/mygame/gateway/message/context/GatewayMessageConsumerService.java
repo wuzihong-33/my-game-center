@@ -9,8 +9,10 @@ import com.mygame.game.common.GameMessageHeader;
 import com.mygame.game.common.GameMessagePackage;
 import com.mygame.game.common.IGameMessage;
 import com.mygame.gateway.message.channel.GameChannelConfig;
-import com.mygame.gateway.message.channel.GameMessageEventDispatchService;
+import com.mygame.gateway.message.channel.GameChannelInitializer;
+import com.mygame.gateway.message.channel.GameChannelService;
 import com.mygame.gateway.message.channel.IMessageSendFactory;
+import com.mygame.gateway.message.rpc.GameRpcService;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -23,12 +25,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 /**
- * 用于接收网关消息，并分发消息到业务中
+ * 监听kafka相应的topic，触发GameChannel通道读写
  */
 @Service
 public class GatewayMessageConsumerService {
     private IMessageSendFactory gameGatewayMessageSendFactory;// 默认实现的消息发送接口，GameChannel返回的消息通过此接口发送到kafka中
-
     @Autowired
     private GameChannelConfig serverConfig;// GameChannel的一些配置信息
     @Autowired
@@ -40,39 +41,42 @@ public class GatewayMessageConsumerService {
     @Autowired
     private ApplicationContext context;
     
-    private GameMessageEventDispatchService gameChannelService;
+    private GameChannelService gameChannelService;
     private GameEventExecutorGroup workerGroup;// 业务处理的线程池
     private EventExecutorGroup rpcWorkerGroup = new DefaultEventExecutorGroup(2);
-    //    private GameRpcService gameRpcSendFactory;
+    private GameRpcService gameRpcSendFactory;
     private Logger logger = LoggerFactory.getLogger(GatewayMessageConsumerService.class);
     
     public void setMessageSendFactory(IMessageSendFactory messageSendFactory) {
         this.gameGatewayMessageSendFactory = messageSendFactory;
     }
-    public GameMessageEventDispatchService getGameMessageEventDispatchService() {
+    public GameChannelService getGameMessageEventDispatchService() {
         return this.gameChannelService;
     }
     
-//    public void start(GameChannelInitializer gameChannelInitializer, int localServerId) {
-//        workerGroup = new GameEventExecutorGroup(serverConfig.getWorkerThreads());
-//        gameGatewayMessageSendFactory = new GameGatewayMessageSendFactory(kafkaTemplate, serverConfig.getGatewayGameMessageTopic());
-//        gameRpcSendFactory = new GameRpcService(serverConfig.getRpcRequestGameMessageTopic(),serverConfig.getRpcResponseGameMessageTopic(),localServerId, playerServiceInstance, rpcWorkerGroup, kafkaTemplate);
-//        gameChannelService = new GameMessageEventDispatchService(context,workerGroup, gameGatewayMessageSendFactory, gameRpcSendFactory, gameChannelInitializer);
-//        workerGroup = new GameEventExecutorGroup(serverConfig.getWorkerThreads());
-//    }
+    public void start(GameChannelInitializer gameChannelInitializer, int localServerId) {
+        workerGroup = new GameEventExecutorGroup(serverConfig.getWorkerThreads());
+        gameGatewayMessageSendFactory = new GameGatewayMessageSendFactory(kafkaTemplate, serverConfig.getGatewayGameMessageTopic());
+        gameRpcSendFactory = new GameRpcService(serverConfig.getRpcRequestGameMessageTopic(),serverConfig.getRpcResponseGameMessageTopic(),localServerId, playerServiceInstance, rpcWorkerGroup, kafkaTemplate);
+        gameChannelService = new GameChannelService(context,workerGroup, gameGatewayMessageSendFactory, gameChannelInitializer, gameRpcSendFactory);
+    }
 
+    
+    
     @KafkaListener(topics = {"${game.channel.business-game-message-topic}" + "-" + "${game.server.config.server-id}"}, groupId = "${game.channel.topic-group-id}")
     public void consume(ConsumerRecord<String, byte[]> record) {
         IGameMessage gameMessage = this.getGameMessage(EnumMessageType.REQUEST, record.value());
         GameMessageHeader header = gameMessage.getHeader();
+        logger.debug("监听到topic有数据生成");
         gameChannelService.fireReadMessage(header.getPlayerId(), gameMessage);
     }
+    
 
-    @KafkaListener(topics = {"${game.channel.rpc-request-game-message-topic}" + "-" + "${game.server.config.server-id}"}, groupId = "rpc-${game.channel.topic-group-id}")
-    public void consumeRPCRequestMessage(ConsumerRecord<String, byte[]> record) {
-        IGameMessage gameMessage = this.getGameMessage(EnumMessageType.RPC_REQUEST, record.value());
-        gameChannelService.fireReadRPCRequest(gameMessage);
-    }
+//    @KafkaListener(topics = {"${game.channel.rpc-request-game-message-topic}" + "-" + "${game.server.config.server-id}"}, groupId = "rpc-${game.channel.topic-group-id}")
+//    public void consumeRPCRequestMessage(ConsumerRecord<String, byte[]> record) {
+//        IGameMessage gameMessage = this.getGameMessage(EnumMessageType.RPC_REQUEST, record.value());
+//        gameChannelService.fireReadRPCRequest(gameMessage);
+//    }
 
 //    @KafkaListener(topics = {"${game.channel.rpc-response-game-message-topic}" + "-" + "${game.server.config.server-id}"}, groupId = "rpc-request-${game.channel.topic-group-id}")
 //    public void consumeRPCResponseMessage(ConsumerRecord<String, byte[]> record) {

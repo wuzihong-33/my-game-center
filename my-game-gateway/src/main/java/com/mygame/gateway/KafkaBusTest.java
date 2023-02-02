@@ -13,7 +13,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-@Service //测试的时候打开注释
+//@Service //测试的时候打开注释
 public class KafkaBusTest {
     private Logger logger = LoggerFactory.getLogger(KafkaBusTest.class);
     @Autowired

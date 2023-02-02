@@ -2,11 +2,9 @@ package com.mygame.gateway.server;
 
 import java.util.concurrent.TimeUnit;
 
+import com.mygame.common.cloud.PlayerServiceInstance;
 import com.mygame.game.GameMessageService;
-import com.mygame.gateway.server.handler.ConfirmHandler;
-import com.mygame.gateway.server.handler.HeartbeatHandler;
-import com.mygame.gateway.server.handler.RequestRateLimiterHandler;
-import com.mygame.gateway.server.handler.TestGameMessageHandler;
+import com.mygame.gateway.server.handler.*;
 import com.mygame.gateway.server.handler.codec.DecodeHandler;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -37,9 +35,8 @@ public class GameGatewayServerBoot {
     private GatewayServerConfig serverConfig;// 注入网关服务配置
     @Autowired
     private GameMessageService gameMessageService;
-
-//    @Autowired
-//    private PlayerServiceInstance playerServiceInstance;
+    @Autowired
+    private PlayerServiceInstance playerServiceInstance;
     @Autowired
     private ChannelService channelService;
     @Autowired
@@ -100,17 +97,14 @@ public class GameGatewayServerBoot {
                 ChannelPipeline p = ch.pipeline();
                 p.addLast("EncodeHandler", new EncodeHandler(serverConfig));
                 p.addLast(new LengthFieldBasedFrameDecoder(1024 * 1024, 0, 4, -4, 0));
-                p.addLast("DecodeHandler", new DecodeHandler());// 添加解码
-//                p.addLast("ConfirmHandler", new ConfirmHandler());
+                p.addLast("DecodeHandler", new DecodeHandler());
+//                p.addLast("ConfirmHandler", new ConfirmHandler(serverConfig, channelService,kafkaTemplate,applicationContext));
 //                // 添加限流handler
 //                p.addLast("RequestLimit", new RequestRateLimiterHandler(globalRateLimiter, serverConfig.getRequestPerSecond()));
-//                int readerIdleTimeSeconds = serverConfig.getReaderIdleTimeSeconds();
-//                int writerIdleTimeSeconds = serverConfig.getWriterIdleTimeSeconds();
-//                int allIdleTimeSeconds = serverConfig.getAllIdleTimeSeconds();
-//                p.addLast(new IdleStateHandler(readerIdleTimeSeconds, writerIdleTimeSeconds, allIdleTimeSeconds));
-//                p.addLast("HeartbeatHandler", new HeartbeatHandler());
-//                p.addLast(new DispatchGameMessageHandler(kafkaTemplate, playerServiceInstance, serverConfig));
-                p.addLast(new TestGameMessageHandler(gameMessageService));// 测试
+                p.addLast(new IdleStateHandler(serverConfig.getReaderIdleTimeSeconds(), serverConfig.getWriterIdleTimeSeconds(), serverConfig.getAllIdleTimeSeconds()));
+                p.addLast("HeartbeatHandler", new HeartbeatHandler());
+                p.addLast(new DispatchGameMessageHandler(kafkaTemplate, playerServiceInstance, serverConfig));
+//                p.addLast(new TestGameMessageHandler(gameMessageService));// 测试
             }
         };
         return channelInitializer;

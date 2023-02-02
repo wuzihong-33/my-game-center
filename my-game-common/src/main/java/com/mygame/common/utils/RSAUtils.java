@@ -269,6 +269,13 @@ public class RSAUtils {
     }
 
 
+    /**
+     * 生成非对称加密密钥对，用于构造客户端请求
+     * 公钥：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCWVBVpyo/cAF+NLI2eRw5MlZFrjnes3FzOk5V7u85Ek7A7YnNIGDhspXTXN1EVbLXmPMkTdmJmNV8ND5rc04+oPQylIQPYlnteMzcy+fD+zn0immfojEqY/TqgwcdvPTSWbXKcYoMuXXZ2iZumBJ3lspCOLFxqJc7br6eDKNnCFQIDAQAB
+     * 私钥：aaaaa
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         for (int i = 0; i < 3; i++) {
             Map<String, Object> keyMap = RSAUtils.genKeyPair();
@@ -276,7 +283,7 @@ public class RSAUtils {
             String pubKeyString = Base64Utils.encodeToString(pubKey);
             System.out.println(pubKeyString);
             byte[] privateKey = RSAUtils.getPrivateKey(keyMap);
-            String str = "aaaaa";
+            String str = "aaaaa";// 密钥
             pubKey = Base64Utils.decodeFromString(pubKeyString);
             byte[] encrypt = RSAUtils.encryptByPublicKey(str.getBytes(), pubKey);
 

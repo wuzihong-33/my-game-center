@@ -1,7 +1,8 @@
 package com.mygame.client.service;
 
 import com.mygame.client.service.handler.DispatchGameMessageHandler;
-import com.mygame.client.service.handler.TestGameMessageHandler;
+import com.mygame.client.service.handler.HeartbeatHandler;
+import com.mygame.client.service.handler.codec.TransformGameMessageToIGameMessageHandler;
 import com.mygame.client.service.handler.codec.DecodeHandler;
 import com.mygame.client.service.handler.codec.EncodeHandler;
 import com.mygame.game.GameMessageService;
@@ -11,6 +12,7 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.timeout.IdleStateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,16 +49,15 @@ public class GameClientBoot {
                     ch.pipeline().addLast("EncodeHandler", new EncodeHandler(gameClientConfig));
                     ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(1024 * 1024 * 4, 0, 4, -4, 0));
                     ch.pipeline().addLast("DecodeHandler", new DecodeHandler());
-//                    ch.pipeline().addLast("responseHandler", new ResponseHandler(gameMessageService));//将响应消息转化为对应的响应对象
-                     ch.pipeline().addLast(new TestGameMessageHandler());//测试handler
-//                    ch.pipeline().addLast(new IdleStateHandler(150, 60, 200));//如果6秒之内没有消息写出，发送写出空闲事件，触发心跳
-//                    ch.pipeline().addLast("HeartbeatHandler",new HeartbeatHandler());//心跳Handler
-//                    ch.pipeline().addLast(new DispatchGameMessageHandler(dispatchGameMessageService));// 添加逻辑处理
+                    ch.pipeline().addLast("TransformGameMessageToIGameMessageHandler", new TransformGameMessageToIGameMessageHandler(gameMessageService));//将响应消息转化为对应的响应对象
+//                     ch.pipeline().addLast(new TestGameMessageHandler());//测试handler
+                    ch.pipeline().addLast(new IdleStateHandler(15, 6, 200));
+                    ch.pipeline().addLast("HeartbeatHandler",new HeartbeatHandler());
+                    ch.pipeline().addLast(new DispatchGameMessageHandler(dispatchGameMessageService));// 添加逻辑处理
                 }
         });
         String host = gameClientConfig.getDefaultGameGatewayHost();
         int port = gameClientConfig.getDefaultGameGatewayPort();
-//        logger.info("程序启动，尝试连接:: {}:{}", host, port);
         ChannelFuture future = null;
         try {
             // 阻塞调用
@@ -70,7 +71,6 @@ public class GameClientBoot {
         } else {
             logger.error("连接 address: {}:{} 失败, cause: {}", host, port, future.cause());
         }
-        logger.info("连接 address: {}:{} 成功", host, port);
         channel = future.channel();
         
 //        channel = future.channel();

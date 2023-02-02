@@ -16,6 +16,10 @@ spring:
       discovery:
         locator:
           enabled: true
+            # 在修改文件后自动重启
+  devtools:
+    restart:
+      enabled: true
 #      routes:    #手动配置路由信息
 #        - id: game-center-server
 #          uri: lb://game-center-server   #配置服务id

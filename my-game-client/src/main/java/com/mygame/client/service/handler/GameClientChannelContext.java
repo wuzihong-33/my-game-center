@@ -18,7 +18,11 @@ public class GameClientChannelContext implements IGameChannelContext {
         this.channel = channel;
         this.request = request;
     }
-    
+
+    public Channel getChannel() {
+        return channel;
+    }
+
     @Override
     public void sendMessage(IGameMessage gameMessage) {
         if (channel.isActive() && channel.isOpen()) {

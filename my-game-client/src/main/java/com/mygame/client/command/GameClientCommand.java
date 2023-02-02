@@ -2,6 +2,7 @@ package com.mygame.client.command;
 
 import com.mygame.common.utils.NettyUtils;
 import com.mygame.game.message.ConfirmMsgRequest;
+import com.mygame.game.message.xinyue.EnterGameMsgRequest;
 import com.mygame.http.request.FirstMsgRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,6 @@ public class GameClientCommand {
             String host = gameClientConfig.getDefaultGameGatewayHost();
             int port = gameClientConfig.getDefaultGameGatewayPort();
             this.connectServer(host, port);
-            logger.info("url: {}", NettyUtils.getRemoteUrl(gameClientBoot.getChannel()));
         }
        if(messageId == 1) {//发送认证请求
            ConfirmMsgRequest request = new ConfirmMsgRequest();
@@ -88,10 +88,15 @@ public class GameClientCommand {
 //           request.setRequestBody(requestBody);
 //           gameClientBoot.getChannel().writeAndFlush(request);
 //       }
-//       if(messageId == 201) {//进入游戏请求
-//           EnterGameMsgRequest request = new EnterGameMsgRequest();
-//           gameClientBoot.getChannel().writeAndFlush(request);
-//       }
+
+
+        /**
+         * 业务请求
+         */
+        if(messageId == 201) {//进入游戏请求
+           EnterGameMsgRequest request = new EnterGameMsgRequest();
+           gameClientBoot.getChannel().writeAndFlush(request);
+       }
 //       if(messageId == 210) {
 //           BuyArenaChallengeTimesMsgRequest request = new BuyArenaChallengeTimesMsgRequest();
 //           gameClientBoot.getChannel().writeAndFlush(request);

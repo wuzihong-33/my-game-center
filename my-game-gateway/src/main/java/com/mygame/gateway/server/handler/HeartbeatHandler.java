@@ -16,7 +16,7 @@ import io.netty.handler.timeout.IdleStateEvent;
 public class HeartbeatHandler extends ChannelInboundHandlerAdapter {
     private Logger logger = LoggerFactory.getLogger(HeartbeatHandler.class);
     private int heartbeatCount = 0;// 心跳计数器，当连续收到一定数量的心跳包后，说明用户一直没操作，服务端主动断开连接
-    private int maxHeartbeatCount = 66;// 最大心跳数
+    private int maxHeartbeatCount = 5;// 最大心跳数
 
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {

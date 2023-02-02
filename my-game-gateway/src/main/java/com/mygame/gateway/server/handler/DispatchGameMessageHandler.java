@@ -22,10 +22,10 @@ import org.springframework.kafka.core.KafkaTemplate;
  * 这里的dispatch，区别于client的dispatch，client的dispatch是发送到对应的业务处理器中去处理业务，而这里的dispatch只负责转发
  */
 public class DispatchGameMessageHandler extends ChannelInboundHandlerAdapter {
-    private PlayerServiceInstance playerServiceInstance;// 注入业务服务管理类，从这里获取负载均衡的服务器信息
+    private PlayerServiceInstance playerServiceInstance;// 服务管理类，从这里获取负载均衡的服务器信息
     private JWTUtil.TokenBody tokenBody;
     private KafkaTemplate<String, byte[]> kafkaTemplate;
-    private GatewayServerConfig gatewayServerConfig; // 注入游戏网关服务配置信息。
+    private GatewayServerConfig gatewayServerConfig; 
     private static Logger logger = LoggerFactory.getLogger(DispatchGameMessageHandler.class);
 
     public DispatchGameMessageHandler(KafkaTemplate<String, byte[]> kafkaTemplate,PlayerServiceInstance playerServiceInstance, GatewayServerConfig gatewayServerConfig) {
@@ -43,14 +43,17 @@ public class DispatchGameMessageHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         GameMessagePackage gameMessagePackage = (GameMessagePackage) msg;
         int serviceId = gameMessagePackage.getHeader().getServiceId();
-        // ???? pipeline 里边的handler每个都是新对象？？？？
+        // ???? pipeline 里边的handler每个都是新对象？？？？使用handler来存储token会不会不太好。。。
         // TODO: 能否将此handler设计成通用的？
-        if (tokenBody == null) {// 如果首次通信，获取验证信息
-            ConfirmHandler confirmHandler = (ConfirmHandler) ctx.channel().pipeline().get("ConfirmHandler");
-            tokenBody = confirmHandler.getTokenBody();
+        if (tokenBody == null) {// 如果首次通信，获取验证信息？？为什么要验证token？仅仅是为了获取playerId？
+            
+            // 测试的时候将下边两行注释掉
+//            ConfirmHandler confirmHandler = (ConfirmHandler) ctx.channel().pipeline().get("ConfirmHandler");
+//            tokenBody = confirmHandler.getTokenBody();
         }
         String clientIp = NettyUtils.getRemoteIP(ctx.channel());
-        dispatchMessage(kafkaTemplate, ctx.executor(), playerServiceInstance, tokenBody.getPlayerId(), serviceId, clientIp, gameMessagePackage, gatewayServerConfig);
+//        dispatchMessage(kafkaTemplate, ctx.executor(), playerServiceInstance, tokenBody.getPlayerId(), serviceId, clientIp, gameMessagePackage, gatewayServerConfig);
+        dispatchMessage(kafkaTemplate, ctx.executor(), playerServiceInstance, 1, serviceId, clientIp, gameMessagePackage, gatewayServerConfig);
     }
 
 
@@ -81,7 +84,6 @@ public class DispatchGameMessageHandler extends ChannelInboundHandlerAdapter {
                 if (future.isSuccess()) {
                     Integer toServerId = future.get();
                     gameMessagePackage.getHeader().setToServerId(toServerId);
-                    // 网关只能有1个？？？？？
                     gameMessagePackage.getHeader().setFromServerId(gatewayServerConfig.getServerId());
                     gameMessagePackage.getHeader().getAttribute().setClientIp(clientIp);
                     gameMessagePackage.getHeader().setPlayerId(playerId);
@@ -89,9 +91,9 @@ public class DispatchGameMessageHandler extends ChannelInboundHandlerAdapter {
                     byte[] value = GameMessageInnerDecoder.sendMessage(gameMessagePackage);
                     ProducerRecord<String, byte[]> record = new ProducerRecord<String, byte[]>(topic, String.valueOf(playerId), value);
                     kafkaTemplate.send(record);
-                    logger.debug("向消息总线发送消息成功");
+                    logger.debug("向topic: {} 写消息成功", topic);
                 } else {
-                    logger.error("消息发送失败",future.cause());
+                    logger.error("获取serverId失败",future.cause());
                 }
             }
         });

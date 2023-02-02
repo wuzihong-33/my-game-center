@@ -1,0 +1,6 @@
+spring:
+  # 在修改文件后自动重启
+  devtools:
+    restart:
+      enabled: false
+

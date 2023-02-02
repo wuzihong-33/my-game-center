@@ -1,0 +1,62 @@
+server:
+  port: 7001
+
+spring:
+  application:
+    name: game-xinyue
+  kafka:
+    producer:
+      key-serializer:
+        org.apache.kafka.common.serialization.StringSerializer  # 指定生产者的Key的序列化方式
+    listener:
+      missing-topics-fatal: false
+  data:
+    mongodb:  # 将数据库信息换成自己电脑的配置
+      host: 127.0.0.1
+      port: 27017
+#      username: my-game
+#      password: xxx123456
+#      authentication-database: admin
+#      database: my-game
+        
+  redis:
+    host: localhost
+    port: 6666
+    password: 123456
+    
+  cloud:
+    consul:  
+      host: localhost
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        ip-address: 127.0.0.1
+        register: true
+        service-name: game-logic  #注册到Consul上面的服务名称，用于区分此服务是否为游戏逻辑
+        health-check-critical-timeout: 30s
+        tags:
+          - serviceId=${game.server.config.service-id}    # 服务的ServiceID，用于获取一组服务
+          - serverId=${game.server.config.server-id} # 服务的serverID，用于定位某一个具体的服务。
+          - weight=3         # 服务器负载权重
+        bus:
+          enabled: true
+        stream:
+          kafka:
+            binder:
+              brokers:
+                - localhost:9092  #配置Kafka地址
+
+game:
+  server:
+    config:
+      service-id: 101   #服务器中配置服务Id
+      server-id: 10101  #当前服务器的id
+      business-game-message-topic: business-game-message-topic-${game.server.config.server-id}
+      gateway-game-message-topic: gateway-game-message-topic
+  channel:
+    gateway-game-message-topic: gateway-game-message-topic
+    business-game-message-topic: business-game-message-topic
+    rpc-request-game-message-topic: rpc-request-game-message-topic
+    rpc-response-game-message-topic: rpc-response-game-message-topic
+    topic-group-id: ${game.server.config.server-id}
+  

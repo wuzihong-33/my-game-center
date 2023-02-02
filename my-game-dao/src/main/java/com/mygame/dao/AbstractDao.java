@@ -20,7 +20,7 @@ public abstract class AbstractDao<Entity, ID> {
     protected abstract Class<Entity> getEntityClass();
     
     public Optional<Entity> findById(ID id) {
-        String key = this.getRedisKey().getKey();
+        String key = this.getRedisKey().getKey(id.toString());
         String value = redisTemplate.opsForValue().get(key);
         Entity entity = null;
         if (value == null) { //  redis中没有缓存

@@ -24,9 +24,7 @@ public class BusinessServerService implements ApplicationListener<HeartbeatEvent
     private Logger logger = LoggerFactory.getLogger(BusinessServerService.class);
     @Autowired
     private DiscoveryClient discoveryClient;
-    @Autowired
-    private KafkaTemplate<String, byte[]> kafkaTemplate;
-    // serviceId -> List(*serverId)
+    // serviceId -> List(serverId)
     private Map<Integer, List<ServerInfo>> serverInfos;
 
     @PostConstruct
@@ -34,20 +32,16 @@ public class BusinessServerService implements ApplicationListener<HeartbeatEvent
         this.refreshBusinessServerInfo();
     }
 
-    public KafkaTemplate<String, byte[]> getKafkaTemplate() {
-        return kafkaTemplate;
-    }
-
     public Set<Integer> getAllServiceId(){
         return serverInfos.keySet();
     }
     
-    
+    // TODO: 如果在refresh列表时发生get操作？
     // 刷新业务服务列表
     private void refreshBusinessServerInfo() {
         Map<Integer, List<ServerInfo>> tempServerInfoMap = new HashMap<>();
-        List<ServiceInstance> businessServiceInstances = discoveryClient.getInstances("game-logic");//网取网关后面的服务实例
-//        logger.debug("抓取游戏服务配置成功,{}", businessServiceInstances);
+        List<ServiceInstance> businessServiceInstances = discoveryClient.getInstances("game-logic");
+        logger.debug("抓取游戏服务配置成功,{}", businessServiceInstances);
         businessServiceInstances.forEach(instance -> {
             int weight = this.getServerInfoWeight(instance);
             for (int i = 0; i < weight; i++) {

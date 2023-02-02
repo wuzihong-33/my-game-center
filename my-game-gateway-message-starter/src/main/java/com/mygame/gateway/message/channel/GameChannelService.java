@@ -1,9 +1,12 @@
 package com.mygame.gateway.message.channel;
 
 
+import com.mygame.common.cloud.GameChannelCloseEvent;
 import com.mygame.common.concurrent.GameEventExecutorGroup;
 import com.mygame.game.common.IGameMessage;
+import com.mygame.gateway.message.rpc.GameRpcService;
 import io.netty.util.concurrent.EventExecutor;
+import io.netty.util.concurrent.Promise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -12,8 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 // GameChannel的管理类，主要负责管理用户id与GameChannel的映射关系，一个玩家始终只有一个GameChannel,并负责请求消息的分发
-public class GameMessageEventDispatchService {
-    private static Logger logger = LoggerFactory.getLogger(GameMessageEventDispatchService.class);
+
+/**
+ * 
+ */
+public class GameChannelService {
+    private static Logger logger = LoggerFactory.getLogger(GameChannelService.class);
     private Map<Long, GameChannel> gameChannelGroup = new HashMap<>();// 管理PlayerId与GameChannel的集合
 
     private GameEventExecutorGroup workerGroup;// 业务处理线程池组
@@ -23,7 +30,7 @@ public class GameMessageEventDispatchService {
     private GameRpcService gameRpcSendFactory;
     private ApplicationContext context;
 
-    public GameMessageEventDispatchService(ApplicationContext context, GameEventExecutorGroup workerGroup, IMessageSendFactory messageSendFactory, GameRpcService gameRpcSendFactory, GameChannelInitializer channelInitializer) {
+    public GameChannelService(ApplicationContext context, GameEventExecutorGroup workerGroup, IMessageSendFactory messageSendFactory, GameChannelInitializer channelInitializer, GameRpcService gameRpcSendFactory) {
         this.context = context;
         this.workerGroup = workerGroup;
         this.executor = workerGroup.next();
@@ -36,7 +43,6 @@ public class GameMessageEventDispatchService {
         return context;
     }
     
-    // 此方法保证所有操作gameChannelGroup集合的行为都在同一个线程中执行，避免跨线程操作。
     private void safeExecute(Runnable task) {
         if (this.executor.inEventLoop()) {// 如果当前调用这个方法的线程和此类所属的线程是同一个线程，则可以立刻执行执行。
             try {
@@ -53,17 +59,6 @@ public class GameMessageEventDispatchService {
                 }
             });
         }
-    }
-
-    private GameChannel getGameChannel(Long playerId) {
-        GameChannel gameChannel = this.gameChannelGroup.get(playerId);
-        if (gameChannel == null) {// 从集合中获取一个GameChannel，如果这个GameChannel为空，则重新创建，并初始化注册这个Channel，完成GameChannel的初始化。
-            gameChannel = new GameChannel(playerId, this, messageSendFactory, gameRpcSendFactory);
-            this.gameChannelGroup.put(playerId, gameChannel);
-            this.channelInitializer.initChannel(gameChannel);// 初始化Channel，可以通过这个接口向GameChannel中添加处理消息的Handler.
-            gameChannel.register(workerGroup.select(playerId), playerId);// 发注册GameChannel的事件。
-        }
-        return gameChannel;
     }
 
     public void fireReadMessage(Long playerId, IGameMessage message) {// 发送接收到的消息事件
@@ -115,12 +110,24 @@ public class GameMessageEventDispatchService {
         });
     }
 
+    
     public void broadcastMessage(IGameMessage gameMessage) {
         this.safeExecute(() -> {
             this.gameChannelGroup.values().forEach(channel -> {
                 channel.pushMessage(gameMessage);
             });
         });
+    }
+
+    private GameChannel getGameChannel(Long playerId) {
+        GameChannel gameChannel = this.gameChannelGroup.get(playerId);
+        if (gameChannel == null) {// 从集合中获取一个GameChannel，如果这个GameChannel为空，则重新创建，并初始化注册这个Channel，完成GameChannel的初始化。
+            gameChannel = new GameChannel(playerId, this, messageSendFactory, gameRpcSendFactory);
+            this.gameChannelGroup.put(playerId, gameChannel);
+            this.channelInitializer.initChannel(gameChannel);// 初始化Channel，可以通过这个接口向GameChannel中添加处理消息的Handler.
+            gameChannel.register(workerGroup.select(playerId), playerId);// 发注册GameChannel的事件。
+        }
+        return gameChannel;
     }
 
 }

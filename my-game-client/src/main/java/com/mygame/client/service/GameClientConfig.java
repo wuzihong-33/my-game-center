@@ -22,7 +22,8 @@ public class GameClientConfig {
     /**
      * 网关认证需要的token
      */
-    private String gatewayToken;
+    private String gatewayToken = "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNjc1MTgxMTIwMzIyIiwiaWF0IjoxNjc1MTgxMTIwLCJzdWIiOiJ7XCJvcGVuSWRcIjpcIjAxMjM0NVwiLFwicGFyYW1zXCI6W1wiXCIsXCJNSUdmTUEwR0NTcUdTSWIzRFFFQkFRVUFBNEdOQURDQmlRS0JnUUNXVkJWcHlvL2NBRitOTEkyZVJ3NU1sWkZyam5lczNGek9rNVY3dTg1RWs3QTdZbk5JR0Roc3BYVFhOMUVWYkxYbVBNa1RkbUptTlY4TkQ1cmMwNCtvUFF5bElRUFlsbnRlTXpjeStmRCt6bjBpbW1mb2pFcVkvVHFnd2NkdlBUU1diWEtjWW9NdVhYWjJpWnVtQkozbHNwQ09MRnhxSmM3YnI2ZURLTm5DRlFJREFRQUJcIl0sXCJwbGF5ZXJJZFwiOjAsXCJzZXJ2ZXJJZFwiOlwiLTFcIixcInVzZXJJZFwiOjJ9In0.WDexIf0M5Z9c0iCncOs39PyYWqpKE1HvyEpRyvvkxNw";
+    
     /**
      * 默认提供的游戏网关的端口:6003
      */

@@ -18,6 +18,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+/**
+ * 权限验证全局过滤器
+ * 当某个uri存在于白名单中或token验证成功，放行
+ */
 @Service
 public class TokenVerifyFilter implements GlobalFilter, Ordered {
     private Logger logger = LoggerFactory.getLogger(TokenVerifyFilter.class);

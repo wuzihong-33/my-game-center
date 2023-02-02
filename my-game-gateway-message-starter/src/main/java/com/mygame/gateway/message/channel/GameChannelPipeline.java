@@ -5,6 +5,7 @@ import com.mygame.game.common.GameMessageHeader;
 import com.mygame.game.common.GameMessagePackage;
 import com.mygame.game.common.IGameMessage;
 import io.netty.channel.DefaultChannelPipeline;
+import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.EventExecutor;
 import io.netty.util.concurrent.EventExecutorGroup;
 import io.netty.util.concurrent.FastThreadLocal;
@@ -39,40 +40,13 @@ public class GameChannelPipeline {
 
     protected GameChannelPipeline(GameChannel channel) {
         this.channel = ObjectUtil.checkNotNull(channel, "channel");
-
         tail = new TailContext(this);
         head = new HeadContext(this);
-
         head.next = tail;
         tail.prev = head;
     }
     
-    private AbstractGameChannelHandlerContext newContext(GameEventExecutorGroup group, boolean singleEventExecutorPerGroup, String name, GameChannelHandler handler) {
-        return new DefaultGameChannelHandlerContext(this, childExecutor(group, singleEventExecutorPerGroup), name, handler);
-    }
 
-    private EventExecutor childExecutor(GameEventExecutorGroup group, boolean singleEventExecutorPerGroup) {
-        if (group == null) {
-            return null;
-        }
-
-        if (!singleEventExecutorPerGroup) {
-            return group.next();
-        }
-        Map<EventExecutorGroup, EventExecutor> childExecutors = this.childExecutors;
-        if (childExecutors == null) {
-            // Use size of 4 as most people only use one extra EventExecutor.
-            childExecutors = this.childExecutors = new IdentityHashMap<EventExecutorGroup, EventExecutor>(4);
-        }
-        // Pin one of the child executors once and remember it so that the same child executor
-        // is used to fire events for the same channel.
-        EventExecutor childExecutor = childExecutors.get(group);
-        if (childExecutor == null) {
-            childExecutor = group.next();
-            childExecutors.put(group, childExecutor);
-        }
-        return childExecutor;
-    }
 
     public final GameChannel gameChannel() {
         return channel;
@@ -200,9 +174,6 @@ public class GameChannelPipeline {
         return name;
     }
 
-    private static String generateName0(Class<?> handlerType) {
-        return StringUtil.simpleClassName(handlerType) + "#0";
-    }
 
     public final GameChannelPipeline fireRegister(long playerId, GameChannelPromise promise) {
         AbstractGameChannelHandlerContext.invokeChannelRegistered(head, playerId, promise);
@@ -224,10 +195,10 @@ public class GameChannelPipeline {
         return this;
     }
 
-    public final GameChannelPipeline fireUserEventTriggered(Object event, Promise<Object> promise) {
-        AbstractGameChannelHandlerContext.invokeUserEventTriggered(head, event, promise);
-        return this;
-    }
+//    public final GameChannelPipeline fireUserEventTriggered(Object event, Promise<Object> promise) {
+//        AbstractGameChannelHandlerContext.invokeUserEventTriggered(head, event, promise);
+//        return this;
+//    }
 
     public final GameChannelPipeline fireChannelRead(Object msg) {
         AbstractGameChannelHandlerContext.invokeChannelRead(head, msg);
@@ -269,10 +240,7 @@ public class GameChannelPipeline {
         return null;
     }
 
-    /**
-     * Called once a {@link Throwable} hit the end of the {@link ChannelPipeline} without been handled
-     * by the user in {@link ChannelHandler#exceptionCaught(ChannelHandlerContext, Throwable)}.
-     */
+
     protected void onUnhandledInboundException(Throwable cause) {
         try {
             logger.warn("An exceptionCaught() event was fired, and it reached at the tail of the pipeline. " + "It usually means the last handler in the pipeline did not handle the exception.", cause);
@@ -294,14 +262,42 @@ public class GameChannelPipeline {
         }
     }
 
-    // A special catch-all handler that handles both bytes and messages.
-    final class TailContext extends AbstractGameChannelHandlerContext implements GameChannelInboundHandler {
+    private static String generateName0(Class<?> handlerType) {
+        return StringUtil.simpleClassName(handlerType) + "#0";
+    }
+    private AbstractGameChannelHandlerContext newContext(GameEventExecutorGroup group, boolean singleEventExecutorPerGroup, String name, GameChannelHandler handler) {
+        return new DefaultGameChannelHandlerContext(this, childExecutor(group, singleEventExecutorPerGroup), name, handler);
+    }
 
-        TailContext(GameChannelPipeline pipeline) {
-            super(pipeline, null, TAIL_NAME, true, false);
-
+    private EventExecutor childExecutor(GameEventExecutorGroup group, boolean singleEventExecutorPerGroup) {
+        if (group == null) {
+            return null;
         }
 
+        if (!singleEventExecutorPerGroup) {
+            return group.next();
+        }
+        Map<EventExecutorGroup, EventExecutor> childExecutors = this.childExecutors;
+        if (childExecutors == null) {
+            // Use size of 4 as most people only use one extra EventExecutor.
+            childExecutors = this.childExecutors = new IdentityHashMap<EventExecutorGroup, EventExecutor>(4);
+        }
+        // Pin one of the child executors once and remember it so that the same child executor
+        // is used to fire events for the same channel.
+        EventExecutor childExecutor = childExecutors.get(group);
+        if (childExecutor == null) {
+            childExecutor = group.next();
+            childExecutors.put(group, childExecutor);
+        }
+        return childExecutor;
+    }
+
+    
+    // A special catch-all handler that handles both bytes and messages.
+    final class TailContext extends AbstractGameChannelHandlerContext implements GameChannelInboundHandler {
+        TailContext(GameChannelPipeline pipeline) {
+            super(pipeline, null, TAIL_NAME, true, false);
+        }
         @Override
         public GameChannelHandler handler() {
             return this;
@@ -312,8 +308,7 @@ public class GameChannelPipeline {
 
         }
 
-
-        @Override
+//        @Override
         public void userEventTriggered(AbstractGameChannelHandlerContext ctx, Object evt, Promise<Object> promise) throws Exception {
 
         }
@@ -382,10 +377,10 @@ public class GameChannelPipeline {
             ctx.fireChannelRead(msg);
         }
 
-        @Override
-        public void userEventTriggered(AbstractGameChannelHandlerContext ctx, Object evt, Promise<Object> promise) throws Exception {
-            ctx.fireUserEventTriggered(evt, promise);
-        }
+//        @Override
+//        public void userEventTriggered(AbstractGameChannelHandlerContext ctx, Object evt, Promise<Object> promise) throws Exception {
+//            ctx.fireUserEventTriggered(evt, promise);
+//        }
 
 
 

@@ -1,7 +1,10 @@
 package com.mygame.gateway.message.channel;
 
+import com.mygame.game.common.EnumMessageType;
 import com.mygame.game.common.GameMessagePackage;
 import com.mygame.game.common.IGameMessage;
+import com.mygame.gateway.message.context.ServerConfig;
+import com.mygame.gateway.message.rpc.GameRpcService;
 import io.netty.util.concurrent.EventExecutor;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.GenericFutureListener;
@@ -12,12 +15,15 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 一个client连接对应一条GameChannel
+ */
 public class GameChannel {
     private static Logger logger = LoggerFactory.getLogger(GameChannel.class);
     private volatile EventExecutor executor;// 此channel所属的线程
     private IMessageSendFactory messageSendFactory; // 发送消息的工厂类接口
     private GameChannelPipeline channelPipeline;// 处理事件的链表
-    private GameMessageEventDispatchService gameChannelService; // 事件分发管理器
+    private GameChannelService gameChannelService; // 事件分发管理器
     private volatile boolean registered; // 标记GameChannel是否注册成功
     private List<Runnable> waitTaskList = new ArrayList<>(5);// 事件等待队列，如果GameChannel还没有注册成功，这个时候又有新的消息过来了，就让事件在这个队列中等待。
     private long playerId;
@@ -26,7 +32,7 @@ public class GameChannel {
     private boolean isClose;
     private ServerConfig serverConfig;
 
-    public GameChannel(long playerId, GameMessageEventDispatchService gameChannelService, IMessageSendFactory messageSendFactory, GameRpcService gameRpcSendFactory) {
+    public GameChannel(long playerId, GameChannelService gameChannelService, IMessageSendFactory messageSendFactory, GameRpcService gameRpcSendFactory) {
         this.gameChannelService = gameChannelService;
         this.messageSendFactory = messageSendFactory;
         channelPipeline = new GameChannelPipeline(this);
@@ -122,7 +128,7 @@ public class GameChannel {
 
     public void fireUserEvent(Object message, Promise<Object> promise) {
         this.safeExecute(() -> {
-            this.channelPipeline.fireUserEventTriggered(message, promise);
+//            this.channelPipeline.fireUserEventTriggered(message, promise);
         });
     }
 
@@ -144,9 +150,9 @@ public class GameChannel {
     }
 
     protected void unsafeSendRpcMessage(IGameMessage gameMessage, Promise<IGameMessage> callback) {
-        if (gameMessage.getHeader().getMesasageType() == EnumMessageType.RPC_REQUEST) {
+        if (gameMessage.getHeader().getMessageType() == EnumMessageType.RPC_REQUEST) {
             this.gameRpcSendFactory.sendRPCRequest(gameMessage, callback);
-        } else if (gameMessage.getHeader().getMesasageType() == EnumMessageType.RPC_RESPONSE) {
+        } else if (gameMessage.getHeader().getMessageType() == EnumMessageType.RPC_RESPONSE) {
             this.gameRpcSendFactory.sendRPCResponse(gameMessage);
         }
     }
@@ -155,7 +161,7 @@ public class GameChannel {
         this.gameChannelService.fireInactiveChannel(playerId);
     }
 
-    public GameMessageEventDispatchService getEventDispatchService() {
+    public GameChannelService getEventDispatchService() {
         return this.gameChannelService;
     }
 }

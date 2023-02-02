@@ -15,15 +15,27 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    private Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserAccountDao userAccountDao;
-    private Logger logger = LoggerFactory.getLogger(UserService.class);
 
+    /**
+     * 向第三方服务器去验证用户
+     * @param openId
+     * @param token
+     * @return
+     */
     public IServerError verifySdkToken(String openId, String token) {
         // 这里调用sdk服务端验证接口
         return null;
     }
-    
+
+    /**
+     * 用户登录
+     * 当用户不存在则自动注册
+     * @param loginParam
+     * @return
+     */
     public UserAccount login(LoginParam loginParam) {
         String openId = loginParam.getOpenId();
         openId.intern(); // 确保放到常量池
@@ -62,5 +74,4 @@ public class UserService {
     public String getOpenIdFromHeader(HttpServletRequest request) {
         return request.getHeader(CommonField.OPEN_ID);
     }
-    
 }

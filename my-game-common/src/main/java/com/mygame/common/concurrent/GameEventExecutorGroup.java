@@ -12,6 +12,9 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 线程池
+ */
 public class GameEventExecutorGroup extends AbstractEventExecutorGroup {
     private final EventExecutor[] children;
     private final AtomicInteger childIndex = new AtomicInteger();

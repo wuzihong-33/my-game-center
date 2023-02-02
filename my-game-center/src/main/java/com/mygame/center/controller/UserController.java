@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/request")
 public class UserController {
-    private Logger logger = LoggerFactory.getLogger((UserController.class));
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
     @Autowired
     private UserService userService;
     @Autowired
@@ -63,6 +63,11 @@ public class UserController {
         return new ResponseEntity<LoginResult>(loginResult);
     }
 
+    /**
+     * 测试用例：
+     * header加上openId：012345
+     * body: {"zoneId":"012345", "nickName": "lll"}
+     */
     @PostMapping(MessageCode.CREATE_PLAYER)
     public ResponseEntity<ZonePlayerInfo> createPlayer(@RequestBody CreatePlayerParam param, HttpServletRequest request) {
         param.checkParam();

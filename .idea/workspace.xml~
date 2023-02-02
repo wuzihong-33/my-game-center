@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c26bf613-e530-4e44-99f6-3e4857dbf488" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/my-game-xinyue/src/main/java/com/mygame/xinyue/common/GameBusinessMessageDispatchHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/my-game-xinyue/src/main/java/com/mygame/xinyue/common/GameBusinessMessageDispatchHandler.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+        <option value="spring-beans.schema" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="git@github.com:wuzihong-33/my-game-center.git" />
+      </set>
+    </option>
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="D:\my-game-server\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2GUj6sieqwHDLEzFrYXMXlBTa9e" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ChangesTree.GroupingKeys" value="module" />
+    <property name="ExpandSpringBootJavaOptionsPanel" value="true" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/my-game-xinyue/src/main/java/com/mygame/xinyue" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2678161" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\my-game-server\my-game-dao\src\main\resources" />
+      <recent name="D:\my-game-server\my-game-center\src\main\resources" />
+      <recent name="D:\my-game-server\my-game-center\config" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.mygame.common.concurrent" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\my-game-server\my-game-xinyue\src\main\java\com\mygame\xinyue" />
+      <recent name="D:\my-game-server\my-game-xinyue\src\main\resources" />
+      <recent name="D:\my-game-server\my-game-gateway-message-starter\src\main\java\com\mygame\gateway\message\context" />
+      <recent name="D:\my-game-server\my-game-network-param\src\main\java\com\mygame\game\message" />
+      <recent name="D:\my-game-server\my-game-xinyue\src\main\java\com\mygame\xinyue\message" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="ConfirmMesgRequest" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.XinyueGameServerMain">
+    <configuration name="JWTUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mygame.common.utils.JWTUtil" />
+      <module name="my-game-common" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mygame.common.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RSAUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.mygame.common.utils.RSAUtils" />
+      <module name="my-game-common" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mygame.common.utils.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameCenterServerMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="my-game-center" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mygame.center.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mygame.center.GameCenterServerMain" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameClientMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="my-game-client" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mygame.client.GameClientMain" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameGatewayMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="my-game-gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mygame.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mygame.gateway.GameGatewayMain" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameGatewayMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="my-game-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mygame.gateway.server.GameGatewayMain" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="WebGatewayServerMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="my-game-web-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mygame.gateway.WebGatewayServerMain" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="XinyueGameServerMain" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="my-game-xinyue" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.mygame.xinyue.XinyueGameServerMain" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GameEventSystemTest.sendGameEvent" type="TestNG" temporary="true" nameIsGenerated="true">
+      <module name="my-game-common" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.mygame.common.eventsystem.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.mygame.common.eventsystem" />
+      <option name="MAIN_CLASS_NAME" value="com.mygame.common.eventsystem.GameEventSystemTest" />
+      <option name="METHOD_NAME" value="sendGameEvent" />
+      <option name="TEST_OBJECT" value="METHOD" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="_my-game-server" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="55516" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.RSAUtils" />
+      <item itemvalue="Application.JWTUtil" />
+      <item itemvalue="Spring Boot.WebGatewayServerMain" />
+      <item itemvalue="Spring Boot.GameClientMain" />
+      <item itemvalue="Spring Boot.XinyueGameServerMain" />
+      <item itemvalue="Spring Boot.GameGatewayMain" />
+      <item itemvalue="Spring Boot.GameCenterServerMain" />
+      <item itemvalue="TestNG.GameEventSystemTest.sendGameEvent" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.GameGatewayMain" />
+        <item itemvalue="Spring Boot.GameCenterServerMain" />
+        <item itemvalue="TestNG.GameEventSystemTest.sendGameEvent" />
+        <item itemvalue="Application.JWTUtil" />
+        <item itemvalue="Application.RSAUtils" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <option name="contentProportion" value="0.17963576" />
+          <treeState>
+            <expand>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Spring Boot" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Spring Boot" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="Finished" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+              <path>
+                <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
+                <item name="Spring Boot" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+                <item name="Not Started" type="7427dc5b:ServiceModel$ServiceGroupNode" />
+              </path>
+            </expand>
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SpringBootOptions">
+    <option name="showAdditionalConfigNotification" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c26bf613-e530-4e44-99f6-3e4857dbf488" name="Default Changelist" comment="" />
+      <created>1666449884287</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1666449884287</updated>
+      <workItem from="1666449886662" duration="1050000" />
+      <workItem from="1666451758677" duration="2572000" />
+      <workItem from="1667040846965" duration="386000" />
+      <workItem from="1667576870547" duration="22000" />
+      <workItem from="1667836947116" duration="9033000" />
+      <workItem from="1669359447418" duration="13038000" />
+      <workItem from="1669437832658" duration="10044000" />
+      <workItem from="1670315603959" duration="47062000" />
+      <workItem from="1671539908880" duration="10480000" />
+      <workItem from="1672494545840" duration="6554000" />
+      <workItem from="1672559555459" duration="6742000" />
+      <workItem from="1672754147294" duration="1128000" />
+      <workItem from="1672925741790" duration="756000" />
+      <workItem from="1673275143519" duration="32000" />
+      <workItem from="1673422577456" duration="2002000" />
+      <workItem from="1673579524284" duration="46000" />
+      <workItem from="1673584960580" duration="361000" />
+      <workItem from="1673588330083" duration="15583000" />
+      <workItem from="1673681035557" duration="5440000" />
+      <workItem from="1673779322925" duration="595000" />
+      <workItem from="1673866855218" duration="2225000" />
+      <workItem from="1674043463866" duration="19036000" />
+      <workItem from="1674206659558" duration="20024000" />
+      <workItem from="1674659680984" duration="2933000" />
+      <workItem from="1674742234110" duration="12509000" />
+      <workItem from="1674825296284" duration="890000" />
+      <workItem from="1674827993778" duration="7239000" />
+      <workItem from="1674887855020" duration="19443000" />
+      <workItem from="1675076944067" duration="11825000" />
+      <workItem from="1675163836258" duration="34670000" />
+      <workItem from="1675336208712" duration="3166000" />
+      <workItem from="1675341751979" duration="5601000" />
+      <workItem from="1675353645250" duration="6000" />
+      <workItem from="1675353979198" duration="301000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="234" y="3" key="#Plugins" timestamp="1671539955827">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="234" y="3" key="#Plugins/0.0.1280.680@0.0.1280.680" timestamp="1671539955827" />
+    <state x="234" y="3" key="#Project_Structure" timestamp="1674904892717">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="234" y="3" key="#Project_Structure/0.0.1280.680@0.0.1280.680" timestamp="1674904892717" />
+    <state x="97" y="0" width="1145" height="680" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1675240304348">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="97" y="0" width="1145" height="680" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1675240304348" />
+    <state x="367" y="150" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1671539783215">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="367" y="150" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680@0.0.1280.680" timestamp="1671539783215" />
+    <state x="447" y="60" key="#com.intellij.ide.util.MemberChooser" timestamp="1675256532812">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="447" y="60" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1675256532812" />
+    <state x="372" y="125" key="#com.intellij.ide.util.PackageChooserDialog" timestamp="1674190361428">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="372" y="125" key="#com.intellij.ide.util.PackageChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1674190361428" />
+    <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1674833738353">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="371" y="130" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1280.680@0.0.1280.680" timestamp="1674833738353" />
+    <state x="453" y="269" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1674639721701">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="453" y="269" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.0.1280.680@0.0.1280.680" timestamp="1674639721701" />
+    <state x="318" y="208" width="660" height="271" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1674640398860">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="318" y="208" width="660" height="271" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1280.680@0.0.1280.680" timestamp="1674640398860" />
+    <state x="372" y="91" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1674655115895">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="372" y="91" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1674655115895" />
+    <state x="283" y="0" width="728" height="680" key="#multiRun" timestamp="1670748193236">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="283" y="0" width="728" height="680" key="#multiRun/0.0.1280.680@0.0.1280.680" timestamp="1670748193236" />
+    <state x="397" y="49" key="#xdebugger.evaluate" timestamp="1675239820907">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="397" y="49" key="#xdebugger.evaluate/0.0.1280.680@0.0.1280.680" timestamp="1675239820907" />
+    <state x="201" y="0" key="CommitChangelistDialog2" timestamp="1667839558683">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="201" y="0" key="CommitChangelistDialog2/0.0.1280.680@0.0.1280.680" timestamp="1667839558683" />
+    <state width="463" height="438" key="DebuggerActiveHint" timestamp="1675346481053">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="463" height="438" key="DebuggerActiveHint/0.0.1280.680@0.0.1280.680" timestamp="1675346481053" />
+    <state x="94" y="94" width="1093" height="493" key="DiffContextDialog" timestamp="1675347605325">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="94" y="94" width="1093" height="493" key="DiffContextDialog/0.0.1280.680@0.0.1280.680" timestamp="1675347605325" />
+    <state x="136" y="68" key="FileChooserDialogImpl" timestamp="1675240921470">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="136" y="68" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1675240921470" />
+    <state width="990" height="218" key="GridCell.Tab.0.bottom" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.0.center" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.0.left" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.0.right" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.1.bottom" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.1.center" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.1.left" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.1.right" timestamp="1675347605261">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1675347605261" />
+    <state width="990" height="218" key="GridCell.Tab.2.bottom" timestamp="1675347605262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1675347605262" />
+    <state width="990" height="218" key="GridCell.Tab.2.center" timestamp="1675347605262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1675347605262" />
+    <state width="990" height="218" key="GridCell.Tab.2.left" timestamp="1675347605262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1675347605262" />
+    <state width="990" height="218" key="GridCell.Tab.2.right" timestamp="1675347605262">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="990" height="218" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1675347605262" />
+    <state width="960" height="218" key="GridCell.Tab.3.bottom" timestamp="1674906368694">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="960" height="218" key="GridCell.Tab.3.bottom/0.0.1280.680@0.0.1280.680" timestamp="1674906368694" />
+    <state width="960" height="218" key="GridCell.Tab.3.center" timestamp="1674906368694">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="960" height="218" key="GridCell.Tab.3.center/0.0.1280.680@0.0.1280.680" timestamp="1674906368694" />
+    <state width="960" height="218" key="GridCell.Tab.3.left" timestamp="1674906368694">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="960" height="218" key="GridCell.Tab.3.left/0.0.1280.680@0.0.1280.680" timestamp="1674906368694" />
+    <state width="960" height="218" key="GridCell.Tab.3.right" timestamp="1674906368694">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="960" height="218" key="GridCell.Tab.3.right/0.0.1280.680@0.0.1280.680" timestamp="1674906368694" />
+    <state x="172" y="0" key="Maven.ArtifactSearchDialog" timestamp="1670675709611">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="172" y="0" key="Maven.ArtifactSearchDialog/0.0.1280.680@0.0.1280.680" timestamp="1670675709611" />
+    <state x="311" y="44" key="NewModule_or_Project.wizard" timestamp="1675240924940">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="311" y="44" key="NewModule_or_Project.wizard/0.0.1280.680@0.0.1280.680" timestamp="1675240924940" />
+    <state x="226" y="6" key="Registry" timestamp="1675240235485">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="226" y="6" key="Registry/0.0.1280.680@0.0.1280.680" timestamp="1675240235485" />
+    <state x="145" y="0" key="SettingsEditor" timestamp="1675336186523">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="145" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1675336186523" />
+    <state x="152" y="0" key="SettingsEditor/0.0.1344.800@0.0.1344.800" timestamp="1671950864368" />
+    <state x="174" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1671630477050" />
+    <state width="242" height="198" key="ShowFilterAction_Filter_Popup" timestamp="1674903538401">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="242" height="198" key="ShowFilterAction_Filter_Popup/0.0.1280.680@0.0.1280.680" timestamp="1674903538401" />
+    <state x="338" y="169" key="com.intellij.ide.util.TipDialog" timestamp="1675353644454">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="338" y="169" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1675353644454" />
+    <state x="199" y="80" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1674909780788">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="199" y="80" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1280.680@0.0.1280.680" timestamp="1674909780788" />
+    <state x="262" y="-7" width="814" height="680" key="find.popup" timestamp="1675333067739">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="262" y="-7" width="814" height="680" key="find.popup/0.0.1280.680@0.0.1280.680" timestamp="1675333067739" />
+    <state x="23" y="45" key="new project wizard" timestamp="1675248151774">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="23" y="45" key="new project wizard/0.0.1280.680@0.0.1280.680" timestamp="1675248151774" />
+    <state x="346" y="0" key="refactoring.ChangeSignatureDialog" timestamp="1674805794899">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="346" y="0" key="refactoring.ChangeSignatureDialog/0.0.1280.680@0.0.1280.680" timestamp="1674805794899" />
+    <state x="298" y="152" width="672" height="677" key="run.anything.popup" timestamp="1675344427703">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="298" y="152" width="672" height="677" key="run.anything.popup/0.0.1280.680@0.0.1280.680" timestamp="1675344427703" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1675346979351">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1675346979351" />
+    <state x="364" y="1" width="807" height="822" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1671630480965" />
+    <state x="345" y="33" key="spring file set editor" timestamp="1675240948707">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="345" y="33" key="spring file set editor/0.0.1280.680@0.0.1280.680" timestamp="1675240948707" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/org/springframework/cloud/spring-cloud-consul-discovery/2.1.0.RELEASE/spring-cloud-consul-discovery-2.1.0.RELEASE-sources.jar!/org/springframework/cloud/consul/serviceregistry/ConsulServiceRegistry.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/my-game-common/src/main/java/com/mygame/common/utils/CompressUtil.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="28" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/my-game-xinyue/src/main/java/com/mygame/xinyue/common/GameBusinessMessageDispatchHandler.java</url>
+          <line>56</line>
+          <option name="timeStamp" value="32" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="op" language="JAVA" />
+        <watch expression="key" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

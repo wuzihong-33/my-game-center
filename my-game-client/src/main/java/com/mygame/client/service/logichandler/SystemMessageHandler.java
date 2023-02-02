@@ -1,5 +1,6 @@
 package com.mygame.client.service.logichandler;
 
+import com.mygame.client.service.handler.HeartbeatHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +18,20 @@ import com.mygame.game.message.HeartbeatMsgResponse;
 import com.mygame.game.messagedispatcher.GameMessageHandler;
 import com.mygame.game.messagedispatcher.GameMessageMapping;
 
+/**
+ * 系统消息处理器，如心跳包处理、连接验证处理
+ */
 @GameMessageHandler
 public class SystemMessageHandler {
     @Autowired
     private GameClientConfig gameClientConfig;
     private static Logger logger = LoggerFactory.getLogger(SystemMessageHandler.class);
 
-//    @GameMessageMapping(ConfirmMsgResponse.class)
-//    public void confirmResponse(ConfirmMsgResponse response, GameClientChannelContext ctx) {
-//        String encryptAesKey = response.getBodyObj().getSecretKey();
-//        byte[] content = Base64Utils.decodeFromString(encryptAesKey);
-//        try {
+    @GameMessageMapping(ConfirmMsgResponse.class)
+    public void confirmResponse(ConfirmMsgResponse response, GameClientChannelContext ctx) {
+        String encryptAesKey = response.getBodyObj().getSecretKey();
+        byte[] content = Base64Utils.decodeFromString(encryptAesKey);
+        try {
 //            byte[] privateKey = GameBase64Utils.decodeFromString(gameClientConfig.getRsaPrivateKey());
 //            byte[] valueBytes = RSAUtils.decryptByPrivateKey(content, privateKey);
 //            String value = new String(valueBytes);// 得到明文的aes加密密钥
@@ -35,14 +39,13 @@ public class SystemMessageHandler {
 //            decodeHandler.setAesScreteKey(value);// 把密钥给解码Handler
 //            EncodeHandler encodeHandler = (EncodeHandler) ctx.getChannel().pipeline().get("EncodeHandler");
 //            encodeHandler.setAesScreteKey(value);// 把密钥给编码Handler
-//            HeartbeatHandler heartbeatHandler = (HeartbeatHandler) ctx.getChannel().pipeline().get("HeartbeatHandler");
-//            heartbeatHandler.setConfirmSuccess(true);
-//            logger.debug("连接认证成功,channelId:{}",ctx.getChannel().id().asShortText());
-//            
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+            HeartbeatHandler heartbeatHandler = (HeartbeatHandler) ctx.getChannel().pipeline().get("HeartbeatHandler");
+            heartbeatHandler.setConfirmSuccess(true);
+            logger.debug("连接认证成功,channelId:{}",ctx.getChannel().id().asShortText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     @GameMessageMapping(HeartbeatMsgResponse.class)
     public void heartbeatResponse(HeartbeatMsgResponse response,GameClientChannelContext ctx) {
