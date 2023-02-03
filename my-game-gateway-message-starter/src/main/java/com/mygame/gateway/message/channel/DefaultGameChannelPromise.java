@@ -18,6 +18,16 @@ public class DefaultGameChannelPromise extends DefaultPromise<Void> implements G
     }
 
     @Override
+    protected EventExecutor executor() {
+        EventExecutor e = super.executor();
+        if (e == null) {
+            return channel().executor();
+        } else {
+            return e;
+        }
+    }
+    
+    @Override
     public GameChannel channel() {
         return channel;
     }

@@ -1,6 +1,5 @@
 package com.mygame.gateway.message.channel;
 
-
 import com.mygame.common.cloud.GameChannelCloseEvent;
 import com.mygame.common.concurrent.GameEventExecutorGroup;
 import com.mygame.game.common.IGameMessage;
@@ -14,10 +13,10 @@ import org.springframework.context.ApplicationContext;
 import java.util.HashMap;
 import java.util.Map;
 
-// GameChannel的管理类，主要负责管理用户id与GameChannel的映射关系，一个玩家始终只有一个GameChannel,并负责请求消息的分发
 
 /**
- * 
+ * GameChannel服务类，（最外一层）提供统一的channel操作，并传递到实际的channel里边去处理
+ * 相当于一个代理类
  */
 public class GameChannelService {
     private static Logger logger = LoggerFactory.getLogger(GameChannelService.class);
@@ -42,32 +41,23 @@ public class GameChannelService {
     public ApplicationContext getApplicationContext() {
         return context;
     }
-    
-    private void safeExecute(Runnable task) {
-        if (this.executor.inEventLoop()) {// 如果当前调用这个方法的线程和此类所属的线程是同一个线程，则可以立刻执行执行。
-            try {
-                task.run();
-            } catch (Throwable e) {
-                logger.error("服务器内部错误", e);
-            }
-        } else {
-            this.executor.execute(() -> {// 如果当前调用这个方法的线程和此类所属的线程不是同一个线程，将此任务提交到线程池中等待执行。
-                try {
-                    task.run();
-                } catch (Throwable e) {
-                    logger.error("服务器内部错误", e);
-                }
-            });
-        }
-    }
 
-    public void fireReadMessage(Long playerId, IGameMessage message) {// 发送接收到的消息事件
+    /**
+     * 触发通道读业务请求
+     * @param playerId
+     * @param message
+     */
+    public void fireReadMessage(Long playerId, IGameMessage message) {
         this.safeExecute(() -> {
             GameChannel gameChannel = this.getGameChannel(playerId);
             gameChannel.fireReadGameMessage(message);
         });
     }
 
+    /**
+     * 触发通道读rpc请求
+     * @param gameMessage
+     */
     public void fireReadRPCRequest(IGameMessage gameMessage) {
         this.safeExecute(() -> {
             GameChannel gameChannel = this.getGameChannel(gameMessage.getHeader().getPlayerId());
@@ -75,13 +65,20 @@ public class GameChannelService {
         });
     }
 
-    public void fireUserEvent(Long playerId, Object msg, Promise<Object> promise) {// 发送用户定义的事件
+    /**
+     * 触发通道读用户定义的事件
+     * @param playerId
+     * @param msg
+     * @param promise
+     */
+    public void fireUserEvent(Long playerId, Object msg, Promise<Object> promise) {
         this.safeExecute(() -> {
             GameChannel gameChannel = this.getGameChannel(playerId);
             gameChannel.fireUserEvent(msg, promise);
         });
     }
 
+    
     // 发送GameChannel失效的事件，在这个事件中可以处理一些数据落地的操作
     public void fireInactiveChannel(Long playerId) {
         this.safeExecute(() -> {
@@ -121,13 +118,31 @@ public class GameChannelService {
 
     private GameChannel getGameChannel(Long playerId) {
         GameChannel gameChannel = this.gameChannelGroup.get(playerId);
-        if (gameChannel == null) {// 从集合中获取一个GameChannel，如果这个GameChannel为空，则重新创建，并初始化注册这个Channel，完成GameChannel的初始化。
+        if (gameChannel == null) {// 第一次发送消息请求，创建并注册该GameChannel
             gameChannel = new GameChannel(playerId, this, messageSendFactory, gameRpcSendFactory);
             this.gameChannelGroup.put(playerId, gameChannel);
-            this.channelInitializer.initChannel(gameChannel);// 初始化Channel，可以通过这个接口向GameChannel中添加处理消息的Handler.
+            this.channelInitializer.initChannel(gameChannel);// 初始化Channel
             gameChannel.register(workerGroup.select(playerId), playerId);// 发注册GameChannel的事件。
         }
         return gameChannel;
+    }
+
+    private void safeExecute(Runnable task) {
+        if (this.executor.inEventLoop()) {// 如果当前调用这个方法的线程和此类所属的线程是同一个线程，则可以立刻执行执行。
+            try {
+                task.run();
+            } catch (Throwable e) {
+                logger.error("服务器内部错误", e);
+            }
+        } else {
+            this.executor.execute(() -> {// 如果当前调用这个方法的线程和此类所属的线程不是同一个线程，将此任务提交到线程池中等待执行。
+                try {
+                    task.run();
+                } catch (Throwable e) {
+                    logger.error("服务器内部错误", e);
+                }
+            });
+        }
     }
 
 }

@@ -66,9 +66,8 @@ public class GatewayMessageConsumerService {
     @KafkaListener(topics = {"${game.channel.business-game-message-topic}" + "-" + "${game.server.config.server-id}"}, groupId = "${game.channel.topic-group-id}")
     public void consume(ConsumerRecord<String, byte[]> record) {
         IGameMessage gameMessage = this.getGameMessage(EnumMessageType.REQUEST, record.value());
-        GameMessageHeader header = gameMessage.getHeader();
-        logger.debug("监听到topic有数据生成");
-        gameChannelService.fireReadMessage(header.getPlayerId(), gameMessage);
+        logger.debug("topic 收到消息：{}, 触发通道读", gameMessage);
+        gameChannelService.fireReadMessage(gameMessage.getHeader().getPlayerId(), gameMessage);
     }
     
 
@@ -85,14 +84,13 @@ public class GatewayMessageConsumerService {
 //    }
 
     /**
-     * 根据收到的数据生成GameMessage
+     * 将通用GameMessagePackage转换成具体的IGameMessage
      * @param messageType
      * @param data
      * @return
      */
     private IGameMessage getGameMessage(EnumMessageType messageType, byte[] data) {
         GameMessagePackage gameMessagePackage = GameMessageInnerDecoder.readGameMessagePackage(data);
-        logger.debug("收到{}消息：{}", messageType, gameMessagePackage.getHeader());
         GameMessageHeader header = gameMessagePackage.getHeader();
         IGameMessage gameMessage = gameMessageService.getMessageInstance(messageType, header.getMessageId());
         gameMessage.read(gameMessagePackage.getBody());

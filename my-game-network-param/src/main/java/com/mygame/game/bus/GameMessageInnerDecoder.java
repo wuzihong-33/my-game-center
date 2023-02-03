@@ -7,6 +7,9 @@ import com.mygame.game.common.HeaderAttribute;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
+/**
+ * 二进制数据与GameMessage对象的相互转换
+ */
 public class GameMessageInnerDecoder {
     private final static int HEADER_FIX_LEN = 60;
 
